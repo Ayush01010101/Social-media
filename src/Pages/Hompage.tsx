@@ -4,8 +4,13 @@ import Home from "../Components/Home";
 const Hompage = (): ReactNode => {
 
   return (
+
     <>
-      <Home />
+      <div className="bg-[rgba(10,10,10,1)] h-screen w-screen">
+
+        <Home />
+
+      </div>
     </>
   )
 }
