@@ -6,6 +6,7 @@ import { Link } from "react-router";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { SignInWithGoogle, User } = useAuth()
+  console.dir()
   return (
     <nav className="fixed border-[1px] rounded-xl border-gray-800 top-0 left-0 w-full z-[10] p-3 bg-[rgba(10,10,10,0.8)]">
       <div className="max-w-[1200px] mx-auto flex items-center justify-between py-3 px-6">
@@ -48,7 +49,7 @@ const Navbar = () => {
             Continue with Google
           </button>
             : <div className="flex justify-center items-center gap-3">
-              <CircleUser color="rgb(229 231 235)" />
+              <img className="h-10 rounded-xl " src={`${User.user_metadata.avatar_url}`} />
               <span className="text-white">{User.email?.split('@')[0]}</span>
 
             </div>}
