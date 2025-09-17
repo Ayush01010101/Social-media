@@ -1,13 +1,16 @@
-  import type { FormEvent, ReactNode } from "react"
+import type { FormEvent, ReactNode } from "react"
+import { useAuth } from "../Context/AuthContext"
 import { LoaderCircle } from "lucide-react"
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import SupabaseClient from "../Instances/SupabaseClient"
 
 const Createpost = (): ReactNode => {
+  const { User } = useAuth();
   interface PostType {
     title: string;
     content: string;
+    avatar_url?: string | null;
     imageURL?: string | null;
   }
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -34,10 +37,10 @@ const Createpost = (): ReactNode => {
       }
     }
     if (imageURL) {
-      mutate({ title, content, imageURL })
+      mutate({ title, content, imageURL, avatar_url: User?.user_metadata.avatar_url })
       return;
     }
-    mutate({ title, content })
+    mutate({ title, content, avatar_url: User?.user_metadata.avatar_url })
   }
 
   return (
