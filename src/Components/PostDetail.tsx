@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
+import LikeandDislike from "./LikeandDislike";
 import { useQuery } from "@tanstack/react-query";
+
 import { useParams } from "react-router";
 import type { PostType } from "./PostList"; // Assuming this path is correct
 import SupabaseClient from "../Instances/SupabaseClient";
@@ -17,7 +19,18 @@ const PostDetail = (): ReactNode => {
       throw new Error("Failed to fetch post details by id");
     }
 
-    return data as PostType;
+    // Assuming your 'created_at' is a string. If not, adjust accordingly.
+    // This is just for display purposes.
+    const formattedData = {
+      ...data,
+      created_at_formatted: new Date(data.created_at).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+    };
+
+    return formattedData as PostType;
   };
 
   const { data: post, isLoading, isError, error } = useQuery({
@@ -54,6 +67,9 @@ const PostDetail = (): ReactNode => {
     );
   }
 
+  // Destructure post data for cleaner JSX
+  const { title, content, imageURL, author_name, avatar_url, created_at_formatted } = post;
+
   return (
     <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <article className="bg-[#1e1e1e] border border-slate-800 rounded-2xl shadow-xl shadow-blue-500/5">
@@ -62,30 +78,30 @@ const PostDetail = (): ReactNode => {
           {/* Author Meta Information */}
           <div className="flex items-center gap-4 mb-6">
             <img
-              src={post?.avatar_url ? post?.avatar_url : "https://via.placeholder.com/40"}
-              alt="profile-picture"
+              src={avatar_url || "https://via.placeholder.com/40"}
+              alt={author_name}
               className="h-12 w-12 rounded-full object-cover"
             />
             <div>
-              <p className="text-white font-semibold text-lg">{post?.author_name}</p>
-              {/* You could display the post date here if it's available in your data */}
-              {/* <p className="text-slate-400 text-sm">Published on July 26, 2024</p> */}
+              <p className="text-white font-semibold text-lg">{author_name}</p>
+              <p className="text-slate-400 text-sm">{created_at_formatted}</p>
             </div>
+
           </div>
 
           {/* Post Title */}
           <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight">
-            {post?.title}
+            {title}
           </h1>
         </div>
 
         {/* Post Image */}
-        {post?.imageURL && (
+        {imageURL && (
           <div className="px-2 sm:px-4">
             <img
               className="w-full rounded-xl aspect-video object-cover"
-              src={post.imageURL}
-              alt={post.title}
+              src={imageURL}
+              alt={title}
             />
           </div>
         )}
@@ -93,10 +109,11 @@ const PostDetail = (): ReactNode => {
         {/* Post Content */}
         <div className="p-6 sm:p-8 md:p-10">
           <p className="text-slate-300 text-lg leading-relaxed whitespace-pre-line">
-            {post?.content}
+            {content}
           </p>
         </div>
       </article>
+      <LikeandDislike postid={postId} />
     </main>
   );
 };

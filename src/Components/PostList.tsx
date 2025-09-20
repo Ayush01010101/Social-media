@@ -3,13 +3,14 @@ import { useQuery } from "@tanstack/react-query"
 import { useAuth } from "../Context/AuthContext";
 import PostCard from "./PostCard";
 import SupabaseClient from "../Instances/SupabaseClient";
-interface PostType {
+export interface PostType {
   id: number;
   created_at: string;
   title: string;
   avatar_url: string | null;
   content: string;
   imageURL: string | null;
+  author_name: string;
   user_id: string
 }
 const PostList: FC = () => {
