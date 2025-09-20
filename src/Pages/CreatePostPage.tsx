@@ -6,7 +6,6 @@ const CreatepostPage = (): ReactNode => {
       <Createpost />
 
     </div>
-
   )
 
 }

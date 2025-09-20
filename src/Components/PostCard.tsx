@@ -1,10 +1,12 @@
 import type React from "react";
+import { useNavigate } from "react-router";
 import { formatDistanceToNow } from "date-fns";
 import type { ReactNode } from "react";
 import { Heart, MessageSquare, Share2 } from "lucide-react";
+import { Link } from "react-router";
 
 interface Props {
-  id: number;
+  id: number | string;
   authorName: string;
   authorAvatar?: string; // URL to the author's avatar image
   title: string;
@@ -14,6 +16,7 @@ interface Props {
 }
 
 const PostCard: React.FC<Props> = ({
+  id,
   authorName,
   authorAvatar,
   title,
@@ -24,6 +27,7 @@ const PostCard: React.FC<Props> = ({
 
 
   const timeago: string = formatDistanceToNow(new Date(createdAt), { addSuffix: true })
+  const navigate = useNavigate()
 
   return (
 
@@ -53,18 +57,18 @@ const PostCard: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="mt-5">
-        <h2 className="text-2xl font-bold text-white mb-2">{title}</h2>
-        <p className="text-gray-300 line-clamp-3"> {/* Truncates content to 3 lines */}
-          {content}
+      <div onClick={() => navigate(`/post/${id}`)} className="mt-5 ">
+        <h2 className="text-2xl font-bold text-white mb-2">{title}</h2> <p className="text-gray-300 line-clamp-3"> {/* Truncates content to 3 lines */} {content}
         </p>
       </div>
 
-      {imageURL && (
-        <div className="mt-5">
-          <img src={imageURL} alt={title} className="w-12 h-auto rounded-lg object-cover" />
-        </div>
-      )}
+      {
+        imageURL && (
+          <div className="mt-5">
+            <img src={imageURL} alt={title} className="w-12 h-auto rounded-lg object-cover" />
+          </div>
+        )
+      }
 
       <div className="mt-6 pt-4 border-t border-gray-700 flex justify-between items-center">
         <div className="flex items-center gap-6 text-gray-400">
@@ -85,7 +89,7 @@ const PostCard: React.FC<Props> = ({
           <Share2 size={20} strokeWidth={2.5} />
         </button>
       </div>
-    </div>
+    </div >
   );
 };
 
