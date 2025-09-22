@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import type { PostType } from "./PostList"; // Assuming this path is correct
 import SupabaseClient from "../Instances/SupabaseClient";
+import Comments from "./Comments";
 
 const PostDetail = (): ReactNode => {
   const { id: postId } = useParams<{ id: string }>();
@@ -114,6 +115,7 @@ const PostDetail = (): ReactNode => {
         </div>
       </article>
       <LikeandDislike postid={postId} />
+      <Comments />
     </main>
   );
 };
