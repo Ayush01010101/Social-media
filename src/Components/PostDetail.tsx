@@ -99,7 +99,7 @@ const PostDetail = (): ReactNode => {
         {imageURL && (
           <div className="px-2 sm:px-4">
             <img
-              className="w-full rounded-xl aspect-video object-cover"
+              className="w-1/2 rounded-xl aspect-video object-cover"
               src={imageURL}
               alt={title}
             />
