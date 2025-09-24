@@ -3,3 +3,12 @@
 .check{
     border: 2px solid white;
 }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE, Edge ke liye */
+  scrollbar-width: none;     /* Firefox ke liye */
+}
+

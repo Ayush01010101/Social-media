@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 import type { PostType } from "./PostList"; // Assuming this path is correct
 import SupabaseClient from "../Instances/SupabaseClient";
 import Comments from "./Comments";
+import CommentList from "./CommentList";
 
 const PostDetail = (): ReactNode => {
   const { id: postId } = useParams<{ id: string }>();
@@ -72,50 +73,55 @@ const PostDetail = (): ReactNode => {
   const { title, content, imageURL, author_name, avatar_url, created_at_formatted } = post;
 
   return (
-    <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <article className="bg-[#1e1e1e] border border-slate-800 rounded-2xl shadow-xl shadow-blue-500/5">
+    <main className="w-full max-w-4xl  mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="grid ">
+        <article className="bg-[#1e1e1e] border border-slate-800 rounded-2xl shadow-xl shadow-blue-500/5">
 
-        <div className="p-6 sm:p-8">
-          {/* Author Meta Information */}
-          <div className="flex items-center gap-4 mb-6">
-            <img
-              src={avatar_url || "https://via.placeholder.com/40"}
-              alt={author_name}
-              className="h-12 w-12 rounded-full object-cover"
-            />
-            <div>
-              <p className="text-white font-semibold text-lg">{author_name}</p>
-              <p className="text-slate-400 text-sm">{created_at_formatted}</p>
+          <div className="p-6 sm:p-8">
+            {/* Author Meta Information */}
+            <div className="flex items-center gap-4 mb-6">
+              <img
+                src={avatar_url || "https://via.placeholder.com/40"}
+                alt={author_name}
+                className="h-12 w-12 rounded-full object-cover"
+              />
+              <div>
+                <p className="text-white font-semibold text-lg">{author_name}</p>
+                <p className="text-slate-400 text-sm">{created_at_formatted}</p>
+              </div>
+
             </div>
 
+            {/* Post Title */}
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+              {title}
+            </h1>
           </div>
 
-          {/* Post Title */}
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight">
-            {title}
-          </h1>
-        </div>
+          {/* Post Image */}
+          {imageURL && (
+            <div className="px-2 flex justify-center  sm:px-4">
+              <img
+                className="w-4/5 rounded-xl aspect-video object-cover"
+                src={imageURL}
+                alt={title}
+              />
+            </div>
+          )}
 
-        {/* Post Image */}
-        {imageURL && (
-          <div className="px-2 sm:px-4">
-            <img
-              className="w-1/2 rounded-xl aspect-video object-cover"
-              src={imageURL}
-              alt={title}
-            />
+          {/* Post Content */}
+          <div className="p-6 sm:p-8 md:p-10">
+            <p className="text-slate-300 text-lg leading-relaxed whitespace-pre-line">
+              {content}
+            </p>
           </div>
-        )}
-
-        {/* Post Content */}
-        <div className="p-6 sm:p-8 md:p-10">
-          <p className="text-slate-300 text-lg leading-relaxed whitespace-pre-line">
-            {content}
-          </p>
-        </div>
-      </article>
+        </article>
+        <div className=""></div>
+      </div>
       <LikeandDislike postid={postId} />
-      <Comments />
+      <Comments postid={postId ? postId : ""} />
+      <CommentList />
+
     </main>
   );
 };

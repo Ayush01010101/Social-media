@@ -29,7 +29,6 @@ const PostList: FC = () => {
       {data?.map((post) => (
         < div key={post.id} className=" sm:w-[56%]">
           < PostCard authorAvatar={post.avatar_url || ""} createdAt={post.created_at} imageURL={post.imageURL} title={post.title} content={post.content} id={post.id} />
-
         </div>
       ))
       }

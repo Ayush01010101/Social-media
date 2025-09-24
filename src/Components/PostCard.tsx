@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { formatDistanceToNow } from "date-fns";
 import type { ReactNode } from "react";
 import { Heart, MessageSquare, Share2 } from "lucide-react";
-import { Link } from "react-router";
 
 interface Props {
   id: number | string;
