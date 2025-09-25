@@ -33,7 +33,7 @@ const Navbar = () => {
             Communities
           </Link>
           <Link
-            to="/create-communities"
+            to="/createcommunity"
             className="text-white no-underline font-medium text-base hover:text-gray-300 transition"
           >
             Create Communities

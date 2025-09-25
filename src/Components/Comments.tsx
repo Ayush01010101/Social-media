@@ -66,8 +66,7 @@ const Comments: React.FC<Props> = ({ postid }): ReactNode => {
 
   return (
     <div className="text-white">
-      <h2 className="text-xl p-3 mt-2">Comments</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 className="text-xl p-3 mt-2">Comments</h2> <form onSubmit={handleSubmit}>
         <textarea
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
@@ -76,7 +75,7 @@ const Comments: React.FC<Props> = ({ postid }): ReactNode => {
           placeholder="Add a comment"
           className="p-4 outline-none w-full border-[1px] border-gray-800 rounded-xl"
         />
-        {isError && <p>{error.message}</p>}
+        {isError && <p className="text-red-500">{error.message}</p>}
         <button
           type="submit"
           className="p-2 bg-purple-600 font-medium rounded-md mt-4 ml-1 cursor-pointer"

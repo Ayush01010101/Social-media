@@ -4,9 +4,9 @@ import CreateCommunity from "../Components/CreateCommunity";
 
 const CreateCommunityPage: FC = (): ReactNode => {
   return (
-    <div>
+    <div className="min-h-screen pt-24 bg-[rgba(10,10,10,1)] ">
 
-      <CreateCommunity } />
+      <CreateCommunity />
     </div>
   )
 }

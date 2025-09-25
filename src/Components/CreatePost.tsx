@@ -1,104 +1,153 @@
-import type { ReactNode } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router";
-import type { PostType } from "./PostList"; // Assuming this path is correct
+import type { FormEvent, ReactNode } from "react";
+import { LoaderCircle } from "lucide-react";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import SupabaseClient from "../Instances/SupabaseClient";
 
-const PostDetail = (): ReactNode => {
-  const { id: postId } = useParams<{ id: string }>();
+interface PostType {
+  title: string;
+  content: string;
+  imageURL?: string | null;
+}
 
-  const fetchPost = async (id: string): Promise<PostType> => {
-    const { data, error } = await SupabaseClient.from("Posts")
-      .select("*")
-      .eq("id", id)
-      .single();
+const Createpost = (): ReactNode => {
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    if (error) {
-      throw new Error("Failed to fetch post details by id");
-    }
-
-    return data as PostType;
-  };
-
-  const { data: post, isLoading, isError, error } = useQuery({
-    queryKey: ["post", postId],
-    queryFn: () => {
-      if (!postId) {
-        throw new Error("Post ID is missing");
-      }
-      return fetchPost(postId);
+  // Mutation for creating a post
+  const {
+    mutate,
+    isPending,
+    error,
+    isError,
+  } = useMutation({
+    mutationFn: async (post: PostType) => {
+      const { data, error } = await SupabaseClient.from("Posts").insert(post);
+      if (error) throw error;
+      return data;
     },
-    enabled: !!postId,
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-slate-400">
-        <svg className="animate-spin h-8 w-8 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <p className="text-lg">Loading Post...</p>
-      </div>
-    );
-  }
+  // Handle form submission
+  const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    let imageURL: string | null = null;
 
-  if (isError) {
-    return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <div className="bg-red-900/20 border border-red-500/50 text-red-400 p-6 rounded-lg max-w-md text-center">
-          <h3 className="font-bold text-xl mb-2">Something went wrong</h3>
-          <p>Error: {error.message}</p>
-        </div>
-      </div>
-    );
-  }
+    if (selectedFile) {
+      const filepath = `${selectedFile.name}-${Date.now()}`;
+      const { data, error } = await SupabaseClient.storage
+        .from("images")
+        .upload(filepath, selectedFile);
+
+      if (error) {
+        // Optionally handle upload error
+        return;
+      }
+
+      if (data) {
+        const { data: imagepublicURL } = await SupabaseClient.storage
+          .from("images")
+          .getPublicUrl(data.path);
+        imageURL = imagepublicURL?.publicUrl ?? null;
+      }
+    }
+
+    mutate({
+      title,
+      content,
+      ...(imageURL ? { imageURL } : {}),
+    });
+  };
 
   return (
-    <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <article className="bg-[#1e1e1e] border border-slate-800 rounded-2xl shadow-xl shadow-blue-500/5">
-
-        <div className="p-6 sm:p-8">
-          {/* Author Meta Information */}
-          <div className="flex items-center gap-4 mb-6">
-            <img
-              src={post?.avatar_url ? post?.avatar_url : "https://via.placeholder.com/40"}
-              alt="profile-picture"
-              className="h-12 w-12 rounded-full object-cover"
+    <div className="flex justify-center items-center h-[70vh]">
+      <div className="bg-[#232946] shadow-2xl p-8 border-white rounded-2xl mx-4 sm:mx-0">
+        <h2 className="text-3xl font-bold text-center mb-6 text-[#E5E5E5]">
+          Create a New Post
+        </h2>
+        <form className="flex flex-col gap-5" onSubmit={HandleSubmit}>
+          <div>
+            <label
+              className="block text-[#B8C1EC] font-semibold mb-2"
+              htmlFor="title"
+            >
+              Title
+            </label>
+            <input
+              id="title"
+              className="w-full px-4 py-2 rounded-lg bg-[#121629] text-[#E5E5E5] border border-[#393053] focus:outline-none focus:ring-2 focus:ring-purple-600 transition"
+              placeholder="Enter Title"
+              type="text"
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              required
             />
-            <div>
-              <p className="text-white font-semibold text-lg">{post?.author_name}</p>
-              {/* You could display the post date here if it's available in your data */}
-              {/* <p className="text-slate-400 text-sm">Published on July 26, 2024</p> */}
+          </div>
+          <div>
+            <label
+              className="block text-[#B8C1EC] font-semibold mb-2"
+              htmlFor="content"
+            >
+              Content
+            </label>
+            <textarea
+              id="content"
+              placeholder="Enter your content"
+              className="w-full px-4 py-3 rounded-lg bg-[#121629] text-[#E5E5E5] border border-[#393053] focus:outline-none focus:ring-2 focus:ring-purple-600 transition resize-none min-h-[120px]"
+              onChange={(e) => setContent(e.target.value)}
+              value={content}
+              required
+            />
+          </div>
+          <div>
+            <label
+              className="block text-[#B8C1EC] font-semibold mb-2"
+              htmlFor="image"
+            >
+              Image (optional)
+            </label>
+            <input
+              id="image"
+              type="file"
+              accept="image/*"
+              className="block w-full text-[#B8C1EC] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#393053] file:text-[#E5E5E5] hover:file:bg-purple-700 transition"
+              onChange={(e) => {
+                if (e.target.files) {
+                  setSelectedFile(e.target.files[0]);
+                }
+              }}
+            />
+            {selectedFile && (
+              <div className="mt-2 text-sm text-[#E5E5E5]">
+                Selected:{" "}
+                <span className="font-medium">{selectedFile.name}</span>
+              </div>
+            )}
+          </div>
+          {isError && (
+            <div className="text-red-700 font-light text-sm ">
+              {error instanceof Error ? error.message : String(error)}
             </div>
-          </div>
-
-          {/* Post Title */}
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight">
-            {post?.title}
-          </h1>
-        </div>
-
-        {/* Post Image */}
-        {post?.imageURL && (
-          <div className="px-2 sm:px-4">
-            <img
-              className="w-full rounded-xl aspect-video object-cover"
-              src={post.imageURL}
-              alt={post.title}
-            />
-          </div>
-        )}
-
-        {/* Post Content */}
-        <div className="p-6 sm:p-8 md:p-10">
-          <p className="text-slate-300 text-lg leading-relaxed whitespace-pre-line">
-            {post?.content}
-          </p>
-        </div>
-      </article>
-    </main>
+          )}
+          <button
+            type="submit"
+            className="mt-4 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-bold py-3 rounded-lg shadow-lg transition transform hover:scale-105"
+            disabled={isPending}
+          >
+            {isPending ? (
+              <div className="flex justify-center">
+                <LoaderCircle className="animate-spin" />
+              </div>
+            ) : (
+              "Create Post"
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 
-export default PostDetail;
+export default Createpost;
+  

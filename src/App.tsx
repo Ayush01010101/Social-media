@@ -10,10 +10,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Hompage />} />
-
         <Route path="/post/:id" element={<PostDetailPage />} />
         <Route path="/createpost" element={<CreatepostPage />} />
-        <Route path="/createcommunity/create" element={<CreateCommunityPage />} />
+        <Route path="/createcommunity" element={<CreateCommunityPage />} />
         <Route path="/community/:postid" />
       </Routes>
     </>
