@@ -120,7 +120,7 @@ const PostDetail = (): ReactNode => {
       </div>
       <LikeandDislike postid={postId} />
       <Comments postid={postId ? postId : ""} />
-      <CommentList />
+      <CommentList postid={Number(postId)} />
 
     </main>
   );
