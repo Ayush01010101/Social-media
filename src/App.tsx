@@ -14,6 +14,7 @@ function App() {
         <Route path="/post/:id" element={<PostDetailPage />} />
         <Route path="/createpost" element={<CreatepostPage />} />
         <Route path="/createcommunity" element={<CreateCommunityPage />} />
+        <Route path="/community/:communityid" element={<></>} />
         <Route path="/communities" element={<CommunitiesPage />} />
       </Routes>
     </>
