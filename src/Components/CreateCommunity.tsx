@@ -30,7 +30,8 @@ const CreateCommunity: React.FC = (): ReactNode => {
 
   const { mutate, data, isError, error, isSuccess, isPending
   } = useMutation({
-    mutationFn: createcommunity
+    mutationFn: createcommunity,
+
   })
   const HandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -38,6 +39,10 @@ const CreateCommunity: React.FC = (): ReactNode => {
       throw new Error("Please pass name and description")
     }
     mutate({ name, description })
+
+    Setname('')
+    setDescription('')
+
 
 
   }
