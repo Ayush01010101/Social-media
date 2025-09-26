@@ -2,20 +2,29 @@ import type { FormEvent, ReactNode } from "react";
 import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "../Context/AuthContext";
+import { fetchCommunities } from "./Communities";
+import { useQuery } from "@tanstack/react-query";
 import SupabaseClient from "../Instances/SupabaseClient";
 
 interface PostType {
   title: string;
   content: string;
   imageURL?: string | null;
+  avatar_url: string | null;
+  author_name: string;
+  community_id: string | null;
+
 }
 
 const Createpost = (): ReactNode => {
+  const { User } = useAuth()
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [community, setCommunity] = useState<string>('')
+  const { error: CommunityError, data: CommunityData } = useQuery({ queryFn: fetchCommunities, queryKey: ['communities'] })
 
-  // Mutation for creating a post
   const {
     mutate,
     isPending,
@@ -29,9 +38,10 @@ const Createpost = (): ReactNode => {
     },
   });
 
-  // Handle form submission
   const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
+    if (!User) return
     let imageURL: string | null = null;
 
     if (selectedFile) {
@@ -57,6 +67,9 @@ const Createpost = (): ReactNode => {
       title,
       content,
       ...(imageURL ? { imageURL } : {}),
+      avatar_url: User.user_metadata.avatar_url,
+      author_name: User.email ? User.email.split("@")[0] : '',
+      community_id: community ? community : null
     });
   };
 
@@ -100,6 +113,14 @@ const Createpost = (): ReactNode => {
               required
             />
           </div>
+          <select onChange={(e) => setCommunity(e.target.value)} className="text-gray-200 border-[1px] border-pink-500 outline-none rounded-md  p-3">
+
+            <option className="rounded-md text-black" value={''} selected>Default</option>
+            {CommunityData && CommunityData.map((community) => {
+              return (<option className="text-black" value={community.id} key={community.id}>{community.name}</option>)
+            })}
+
+          </select>
           <div>
             <label
               className="block text-[#B8C1EC] font-semibold mb-2"
@@ -118,6 +139,8 @@ const Createpost = (): ReactNode => {
                 }
               }}
             />
+
+
             {selectedFile && (
               <div className="mt-2 text-sm text-[#E5E5E5]">
                 Selected:{" "}
@@ -145,9 +168,9 @@ const Createpost = (): ReactNode => {
           </button>
         </form>
       </div>
-    </div>
+    </div >
   );
 };
 
 export default Createpost;
-  
+
