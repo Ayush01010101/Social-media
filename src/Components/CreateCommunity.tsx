@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import SupabaseClient from "../Instances/SupabaseClient";
@@ -9,6 +10,7 @@ interface CreateCommunityType {
 }
 const CreateCommunity: React.FC = (): ReactNode => {
 
+  const queryclient = useQueryClient()
 
   const [name, Setname] = useState<string>('');
   const [description, setDescription] = useState<string>('')
@@ -31,7 +33,9 @@ const CreateCommunity: React.FC = (): ReactNode => {
   const { mutate, data, isError, error, isSuccess, isPending
   } = useMutation({
     mutationFn: createcommunity,
-
+    onSuccess: () => {
+      queryclient.invalidateQueries({ queryKey: ['communities'] })
+    }
   })
   const HandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
