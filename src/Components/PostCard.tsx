@@ -7,7 +7,7 @@ import { Heart, MessageSquare, Share2 } from "lucide-react";
 interface Props {
   id: number | string;
   authorName: string;
-  authorAvatar?: string; // URL to the author's avatar image
+  authorAvatar?: string;
   title: string;
   content: string;
   imageURL?: string | null;

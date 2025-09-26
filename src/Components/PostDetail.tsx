@@ -21,8 +21,6 @@ const PostDetail = (): ReactNode => {
       throw new Error("Failed to fetch post details by id");
     }
 
-    // Assuming your 'created_at' is a string. If not, adjust accordingly.
-    // This is just for display purposes.
     const formattedData = {
       ...data,
       created_at_formatted: new Date(data.created_at).toLocaleDateString("en-US", {

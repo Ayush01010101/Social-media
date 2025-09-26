@@ -10,6 +10,7 @@ export interface PostType {
   avatar_url: string | null;
   content: string;
   imageURL: string | null;
+  community_id: number;
   author_name: string;
   user_id: string
 }
@@ -28,7 +29,7 @@ const PostList: FC = () => {
     <div className="flex sm:mx-0 mx-2 flex-col  items-center gap-6 ">
       {data?.map((post) => (
         < div key={post.id} className=" sm:w-[56%]">
-          < PostCard authorAvatar={post.avatar_url || ""} createdAt={post.created_at} imageURL={post.imageURL} title={post.title} content={post.content} id={post.id} />
+          < PostCard authorName={post.author_name} authorAvatar={post.avatar_url || ""} createdAt={post.created_at} imageURL={post.imageURL} title={post.title} content={post.content} id={post.id} />
         </div>
       ))
       }
