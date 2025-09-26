@@ -40,7 +40,6 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Continue with Google button (desktop) */}
         <div className="hidden md:flex items-center ml-8">
           {!User ? <button onClick={SignInWithGoogle} className="bg-gray-100 hover:scale-105  flex justify-center items-center gap-2 cursor-pointer text-black font-semibold text-base rounded px-3 py-2 shadow hover:bg-gray-100 transition">
             <div className="h-6 flex w-6">

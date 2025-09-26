@@ -35,6 +35,7 @@ const PostDetail = (): ReactNode => {
 
   const { data: post, isLoading, isError, error } = useQuery({
     queryKey: ["post", postId],
+    refetchOnMount: false, refetchOnWindowFocus: false,
     queryFn: () => {
       if (!postId) {
         throw new Error("Post ID is missing");

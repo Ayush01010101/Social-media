@@ -18,8 +18,7 @@ const CommentList = ({ postid }: { postid: number }): ReactNode => {
 
     return data;
   }
-  const { data, error } = useQuery({ queryFn: FetchComments, queryKey: ['comments'] })
-  console.log(data)
+  const { data, error } = useQuery({ queryFn: FetchComments, queryKey: ['comments'], refetchOnWindowFocus: false, refetchOnMount: false })
 
   if (data && data.length == 0) {
     return <></>
