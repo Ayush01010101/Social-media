@@ -91,11 +91,11 @@ const Navbar = () => {
               Communities
             </Link>
             <Link
-              to="/create-communities"
-              className="text-white no-underline font-medium text-lg mb-2 hover:text-gray-300 transition"
+              to="/createcommunity"
+              className="text-white  no-underline font-medium  mb-2 hover:text-gray-300 transition"
               onClick={() => setMenuOpen(false)}
             >
-              Create Communities
+
             </Link>
             <button className="bg-white text-black font-semibold text-base rounded px-5 py-2 shadow mt-4 self-start hover:bg-gray-100 transition">
               Continue with Google

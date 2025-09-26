@@ -19,7 +19,7 @@ const PostList: FC = () => {
 
   const { User } = useAuth()
   const FetchPost = async (): Promise<PostType[]> => {
-    const { data, error } = await SupabaseClient.from('Posts').select('*')
+    const { data, error } = await SupabaseClient.from('Posts').select('*').order('created_at', { ascending: false })
     if (error) throw new Error("failed to fetch posts")
     return data as PostType[]
   }
