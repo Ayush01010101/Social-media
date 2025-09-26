@@ -3,8 +3,9 @@ import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../Context/AuthContext";
+
 import { fetchCommunities } from "./Communities";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import SupabaseClient from "../Instances/SupabaseClient";
 
 interface PostType {
@@ -19,6 +20,7 @@ interface PostType {
 
 const Createpost = (): ReactNode => {
   const { User } = useAuth()
+  const queryclient = useQueryClient()
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -36,6 +38,9 @@ const Createpost = (): ReactNode => {
       if (error) throw error;
       return data;
     },
+    onSuccess() {
+      queryclient.invalidateQueries({ queryKey: ['postlist'] })
+    }
   });
 
   const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
