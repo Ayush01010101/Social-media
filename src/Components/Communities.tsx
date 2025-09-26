@@ -20,7 +20,7 @@ export const fetchCommunities = async (): Promise<CommunitiesType[]> => {
 const Communities = (): ReactNode => {
   const navigate = useNavigate()
 
-  const { data, error, isPending, isSuccess, isError } = useQuery({ queryFn: fetchCommunities, queryKey: ['communities'] })
+  const { data, error, isPending, isSuccess, isError } = useQuery({ queryFn: fetchCommunities, queryKey: ['communities'], refetchOnMount: false, refetchOnWindowFocus: false })
   return (
     <div className="flex flex-col text-gray-200 items-center mt-5 gap-5 font-medium">
       {data?.map((community) => {

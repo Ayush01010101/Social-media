@@ -23,7 +23,7 @@ const Createpost = (): ReactNode => {
   const [content, setContent] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [community, setCommunity] = useState<string>('')
-  const { error: CommunityError, data: CommunityData } = useQuery({ queryFn: fetchCommunities, queryKey: ['communities'] })
+  const { error: CommunityError, data: CommunityData } = useQuery({ queryFn: fetchCommunities, queryKey: ['communities'], refetchOnMount: false, refetchOnWindowFocus: false })
 
   const {
     mutate,
@@ -115,7 +115,7 @@ const Createpost = (): ReactNode => {
           </div>
           <select onChange={(e) => setCommunity(e.target.value)} className="text-gray-200 border-[1px] border-pink-500 outline-none rounded-md  p-3">
 
-            <option className="rounded-md text-black" value={''} selected>Default</option>
+            <option className="rounded-md text-black" value={''} selected>general</option>
             {CommunityData && CommunityData.map((community) => {
               return (<option className="text-black" value={community.id} key={community.id}>{community.name}</option>)
             })}

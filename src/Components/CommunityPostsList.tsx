@@ -14,7 +14,7 @@ const CommunityPostsList: FC = (): ReactNode => {
     if (error) throw new Error("failed to get posts")
     return data as PostType[]
   }
-  const { data, isPending, isError, error } = useQuery({ queryFn: FetchPosts, queryKey: ['community_posts'] })
+  const { data, isPending, isError, error } = useQuery({ queryFn: FetchPosts, queryKey: ['community_posts'], refetchOnMount: false, refetchOnWindowFocus: false })
   return (
     <div>
       <div className="flex sm:mx-0 mx-2 flex-col  items-center gap-6 ">
