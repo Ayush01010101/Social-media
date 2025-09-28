@@ -24,14 +24,7 @@ const PostList: FC = () => {
   }
   const { data, error } = useQuery({ refetchOnMount: false, refetchOnWindowFocus: false, queryKey: ["postlist"], queryFn: FetchPost })
   return (
-    <div className="flex sm:mx-0 mx-2 flex-col  items-center gap-6 ">
-      {data?.map((post) => (
-        < div key={post.id} className=" sm:w-[56%]">
-          < PostCard authorName={post.author_name} authorAvatar={post.avatar_url || ""} createdAt={post.created_at} imageURL={post.imageURL} title={post.title} content={post.content} id={post.id} />
-        </div>
-      ))
-      }
-    </div >
+    <></>
   )
 
 }
