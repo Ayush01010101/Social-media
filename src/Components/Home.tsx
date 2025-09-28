@@ -28,7 +28,7 @@ const Home = (): ReactNode => {
 
         </div>
 
-        <div className="overflow-auto no-scrollbar max-h-[90vh]">
+        <div className="overflow-auto w-full  no-scrollbar max-h-[90vh]">
           <PostList />
 
         </div>

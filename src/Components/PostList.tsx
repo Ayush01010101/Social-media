@@ -38,7 +38,7 @@ const PostList: FC = () => {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="animate-pulse rounded-xl border border-gray-800 bg-[#11141a] h-60 p-4"
+            className="animate-pulse  rounded-xl border border-gray-800 bg-[#11141a] h-60 p-4"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="h-9 w-9 rounded-full bg-gray-800" />
