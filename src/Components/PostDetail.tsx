@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import LikeandDislike from "./LikeandDislike";
 import { useQuery } from "@tanstack/react-query";
 
 import { useParams } from "react-router";
@@ -117,7 +116,6 @@ const PostDetail = (): ReactNode => {
         </article>
         <div className=""></div>
       </div>
-      <LikeandDislike postid={postId} />
       <Comments postid={postId ? postId : ""} />
       <CommentList postid={Number(postId)} />
 
