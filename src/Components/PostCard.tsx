@@ -1,22 +1,26 @@
-// PostCard.tsx
+import { useEffect, useState } from "react";
 import type { FC } from "react";
-import type { PostType } from "./PostList";
+import type { Likes, PostType } from "./PostList";
+import Like from "./Like";
 import {
   Bookmark,
   Heart,
   MessageCircle,
   Share2,
   MoreHorizontal,
+
+
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
-const PostCard: FC<{ post: PostType }> = ({ post }) => {
+const PostCard: FC<{ post: PostType, LikeARR: Likes[] }> = ({ post, LikeARR }) => {
+
   const timeAgo = formatDistanceToNow(new Date(post.created_at), {
     addSuffix: true,
   });
 
   return (
-    <article className="rounded-xl border border-gray-800 bg-[#11141a] px-4 py-4 md:px-5 md:py-5 shadow-[0_1px_0_0_rgba(255,255,255,0.03)_inset]">
+    <article className="rounded-xl border border-gray-800 bg-[#121212] px-4 py-4 md:px-5 md:py-5 shadow-[0_1px_0_0_rgba(255,255,255,0.03)_inset]">
       {/* Header */}
       <header className="flex items-start justify-between">
         <div className="flex items-center gap-3">
@@ -65,24 +69,22 @@ const PostCard: FC<{ post: PostType }> = ({ post }) => {
 
       {/* Media placeholder / image */}
       <div className="mt-3">
-        {post.imageURL ? (
+        {post.imageURL && (
           <img
             src={post.imageURL}
             alt="post media"
             className="w-full rounded-md border border-gray-800 object-cover max-h-[420px]"
           />
-        ) : (
-          <div className="w-full rounded-md border border-gray-800 bg-[#1a1f2b] text-gray-400 flex items-center justify-center h-[220px]">
-            Gaming Screenshot
-          </div>
-        )}
+        )
+        }
       </div>
 
       {/* Footer actions */}
       <footer className="mt-3 flex items-center justify-between">
         <div className="flex items-center gap-5">
-          <Action icon={<Heart size={18} />} label="124" />
+          <Like LikesARR={Array.isArray(LikeARR) ? LikeARR : []} postID={post.id} like={post.likes} />
           <Action icon={<MessageCircle size={18} />} label="23" />
+
           <Action icon={<Share2 size={18} />} label="8" />
         </div>
         <button className="text-gray-400 hover:text-gray-200 p-2 rounded-md hover:bg-white/5">
