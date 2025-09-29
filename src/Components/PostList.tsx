@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import SupabaseClient from "../Instances/SupabaseClient";
 import PostCard from "./PostCard";
+import { useAuth } from "../Context/AuthContext";
 
 export interface PostType {
   id: number;
@@ -11,20 +12,45 @@ export interface PostType {
   content: string;
   imageURL: string | null;
   community_id: number;
+  likes: number;
   author_name: string;
   user_id: string;
 }
 
+export interface Likes {
+  created_at: string,
+  user_id: string,
+  likes: number,
+  post_id: number
+
+}
+
+const fetchUserslike = async (userid: string | undefined): Promise<Likes[] | []> => {
+  if (!userid) {
+    throw new Error("user id is undefined")
+  }
+  const { data, error } = await SupabaseClient.from("Likes").select('*').eq('user_id', userid)
+
+  if (error) return []
+
+  return data as Likes[];
+
+}
+
 const PostList: FC = () => {
+  const { User } = useAuth()
   const FetchPost = async (): Promise<PostType[]> => {
     const { data, error } = await SupabaseClient
       .from("Posts")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(20);
     if (error) throw new Error("failed to fetch posts");
     return (data || []) as PostType[];
   };
 
+  const { data: UsersLikes } = useQuery<Likes[] | []>({ queryFn: () => fetchUserslike(User?.id), queryKey: ['fetchUserslikes'], refetchOnMount: false, refetchOnWindowFocus: false })
+  console.log(UsersLikes)
   const { data, isLoading, isError } = useQuery({
     queryKey: ["postlist"],
     queryFn: FetchPost,
@@ -73,7 +99,7 @@ const PostList: FC = () => {
   return (
     <div className="space-y-5">
       {data.map((p) => (
-        <PostCard key={p.id} post={p} />
+        <PostCard LikeARR={UsersLikes as Likes[]} key={p.id} post={p} />
       ))}
     </div>
   );

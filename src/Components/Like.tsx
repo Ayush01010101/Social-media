@@ -43,6 +43,7 @@ const Like: FC<props> = ({ postID, like, LikesARR }): ReactNode => {
   }
 
 
+
   const { mutate, error } = useMutation({
     mutationFn: addLike, onSuccess: () => {
       queryclient.invalidateQueries({ queryKey: ['postlist'] })
