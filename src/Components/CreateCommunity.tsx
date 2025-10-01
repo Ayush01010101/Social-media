@@ -43,11 +43,11 @@ const CreateCommunity: React.FC = (): ReactNode => {
     }
     let imageUrl = null;
     if (file) {
-      const { data, error } = await SupabaseClient.storage.from("Community_Images").upload(`${Date.now()} - ${name} - Community `, file)
+      const { data, error } = await SupabaseClient.storage.from("Community_Images").upload(`${Date.now()}-${name}-Community`, file)
       if (error) return;
       const { data: publicUrl } = await SupabaseClient.storage.from("Community_Images").getPublicUrl(data?.path)
 
-      imageUrl = publicUrl
+      imageUrl = publicUrl.publicUrl
 
     }
 
@@ -77,7 +77,6 @@ const CreateCommunity: React.FC = (): ReactNode => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !description) {
-      alert("Please provide a name and description");
       return;
     }
     mutate({ name, description, file });
@@ -114,15 +113,14 @@ const CreateCommunity: React.FC = (): ReactNode => {
       if (files[0].type.startsWith("image/")) {
         setFile(files[0]);
       } else {
-        alert("Please select an image file.");
       }
     }
   };
 
 
   return (
-    <div className="mt-2.5 sm:w-1/2 mx-auto p-6 bg-[#121212] rounded-2xl text-gray-200">
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+    <div className="mt-2.5  sm:w-1/2 mx-auto p-6 bg-[#121212] rounded-2xl text-gray-200">
+      <form className="flex  flex-col gap-5" onSubmit={handleSubmit}>
         <div>
           <label className="text-lg font-medium mb-2 block">Community Name</label>
           <input
@@ -163,8 +161,7 @@ const CreateCommunity: React.FC = (): ReactNode => {
             />
             {preview ? (
               <div className="relative w-full max-w-xs">
-                <img src={preview} alt="Preview" className="w-full h-auto rounded-lg" />
-                <button
+                <img src={preview} alt="Preview" className="w-full h-auto rounded-lg" /> <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
