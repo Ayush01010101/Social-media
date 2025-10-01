@@ -3,7 +3,6 @@ import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../Context/AuthContext";
-
 import { fetchCommunities } from "./Communities";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import SupabaseClient from "../Instances/SupabaseClient";
