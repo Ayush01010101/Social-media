@@ -9,6 +9,7 @@ export interface CommunitiesType {
   id: number;
   created_at: string;
   name: string;
+  Image_url: string | null
   description: string;
 }
 
@@ -67,13 +68,14 @@ const Communities = (): ReactNode => {
         {isPending ? (
           <p>Loading communities...</p>
         ) : (
-          <div className="grid h-[50vh] overflow-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid overflow-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data?.map((community) => {
               return (
-                <div key={community.id} className="bg-[#121212] rounded-xl p-6 flex flex-col gap-4 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300 cursor-pointer" onCtypescript-language-serverlick={() => navigate(`/community/${community.id}`)}>
+                <div key={community.id} className="bg-[#121212] rounded-xl p-6  flex flex-col gap-4 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300 cursor-pointer" onClick={() => navigate(`/community/${community.id}`)}>
 
-                  {/* Card Header */}
-                  <div className="flex items-center gap-4">
+
+                  <div className="flex  items-center gap-4">
+                    <img className="h-10" src={community.Image_url || "https://imgs.search.brave.com/mK9mB8Mxg7zIDdDsuzcxEAUuuDCr-5rFmHpFUM4x8ZE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Y29tcHV0ZXJob3Bl/LmNvbS9qYXJnb24v/Zy9ndWVzdC11c2Vy/LnBuZw"} />
                     <div>
                       <h2 className="text-xl font-bold text-white">{community.name}</h2>
                     </div>
