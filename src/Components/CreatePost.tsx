@@ -81,6 +81,8 @@ const Createpost: FC<{ handleClick: () => void }> = ({ handleClick }): ReactNode
           .from("images")
           .getPublicUrl(data.path);
         imageURL = imagepublicURL?.publicUrl ?? null;
+        handleClick()
+
       }
     }
 
@@ -107,23 +109,34 @@ const Createpost: FC<{ handleClick: () => void }> = ({ handleClick }): ReactNode
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
 
+
+
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files[0]) {
+      if (files[0].type.startsWith("image/")) {
+        setSelectedFile(files[0]);
+      } else {
+      }
+    }
   };
+
   return (
     <div className="fixed h-screen w-screen backdrop-blur-sm ">
-      <div className="mt-2.5 relative translate-y-17 sm:w-1/2 mx-auto  p-6 bg-[#121212] rounded-2xl text-gray-200">
-        <div className="absolute -top-14 right-3" onClick={() => handleClick()}> <CircleX /></div>
+      <div className="mt-2.5 relative h-2/3 no-scrollbar overflow-auto translate-y-17 sm:w-1/2 mx-auto  p-6 bg-[#121212] rounded-2xl text-gray-200">
+
+        <div className="absolute right-10 " onClick={() => handleClick()}> <CircleX /></div>
 
 
 
-
-        <form className="flex  flex-col gap-5" onSubmit={handleSubmit}>
+        <form className="flex  flex-col gap-5" onSubmit={HandleSubmit}>
           <div>
             <label className="text-lg font-medium mb-2 block">Create Post</label>
             <input
               className="w-full bg-[#1E1E1E] p-4 rounded-xl border border-transparent focus:border-purple-500 focus:ring-purple-500 focus:outline-none"
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="Post Title"
               type='text'
             />
@@ -134,17 +147,19 @@ const Createpost: FC<{ handleClick: () => void }> = ({ handleClick }): ReactNode
             <textarea
               rows={4}
               className="w-full bg-[#1E1E1E] p-4 rounded-xl border border-transparent focus:border-purple-500 focus:ring-purple-500 focus:outline-none"
+              onChange={(e) => setContent(e.target.value)}
               placeholder="What is this post about?"
             />
           </div>
 
-          <div>
+          <div >
             <label className="text-lg font-medium mb-2 block">Community Image (Optional)</label>
             <div
               className={`flex justify-center items-center w-full p-6 border-2 ${isDragging ? 'border-purple-500' : 'border-gray-600'} border-dashed rounded-xl cursor-pointer transition-colors`}
+
+              onClick={() => fileInputRef.current?.click()}
               onDrop={handleDrop}
               onDrag={(e) => e.preventDefault()}
-
               onDragEnter={(e) => e.preventDefault()}
               onDragOver={(e) => e.preventDefault()}
               onDragLeave={(e) => e.preventDefault()}
@@ -152,6 +167,7 @@ const Createpost: FC<{ handleClick: () => void }> = ({ handleClick }): ReactNode
             >
               <input
                 type="file"
+                onChange={handleFileSelect}
                 ref={fileInputRef}
                 className="hidden"
                 accept="image/*"
