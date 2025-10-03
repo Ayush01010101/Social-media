@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
 import { useNavigate } from "react-router";
 import { Laptop, Guitar, Volleyball } from "lucide-react";
+import type { FC } from "react";
 import PostList from "./PostList";
-const Home = (): ReactNode => {
+const Home: FC<{ handleclick: () => void }> = ({ handleclick }): ReactNode => {
   const navigate = useNavigate()
   return (
     <>
@@ -17,7 +18,7 @@ const Home = (): ReactNode => {
             <h2 className="text-xl font-medium">Quick Action</h2>
 
             <button onClick={() => navigate('/createcommunity')} className="p-3 w-full rounded-xl bg-[#9333EA] font-bold transition-all duration-200 shadow-gray-800 hover:scale-101 hover:shadow-2xl  cursor-pointer">Create community</button>
-            <button onClick={() => navigate('/createpost')} className="p-3 rounded-xl bg-[#1A1A1A]">Create Post</button>
+            <button onClick={() => handleclick()} className="p-3 rounded-xl bg-[#1A1A1A]" > Create Post</button>
           </div>
 
           <div className="flex flex-col w-md gap-3 text-[#E1E1E1]   bg-[#121212] mx-ap-5 rounded-xluto rounded-xl  p-6 px-7">

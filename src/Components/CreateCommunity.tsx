@@ -101,8 +101,6 @@ const CreateCommunity: React.FC = (): ReactNode => {
       // Check if it's an image
       if (files[0].type.startsWith("image/")) {
         setFile(files[0]);
-      } else {
-        alert("Please drop an image file.");
       }
     }
   };

@@ -14,6 +14,7 @@ export interface CommunitiesType {
 }
 
 export const fetchCommunities = async (): Promise<CommunitiesType[]> => {
+
   const { data, error } = await SupabaseClient.from("Communities").select('*').order('created_at', { ascending: false }).limit(10);
   if (error) throw new Error('failed to fetch Communities');
 

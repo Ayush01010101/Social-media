@@ -9,7 +9,8 @@ const client = new QueryClient()
 createRoot(document.getElementById('root')!).render(
 
 
-  <QueryClientProvider client={client}>
+
+  < QueryClientProvider client={client} >
     <AuthContextProvider>
 
       <BrowserRouter>
