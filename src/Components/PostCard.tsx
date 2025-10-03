@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import type { FC } from "react";
 import type { Likes, PostType } from "./PostList";
 import Like from "./Like";
 import {
   Bookmark,
-  Heart,
   MessageCircle,
   Share2,
   MoreHorizontal,
@@ -15,14 +15,15 @@ import { formatDistanceToNow } from "date-fns";
 
 const PostCard: FC<{ post: PostType, LikeARR: Likes[] }> = ({ post, LikeARR }) => {
 
+  const navigate = useNavigate()
   const timeAgo = formatDistanceToNow(new Date(post.created_at), {
     addSuffix: true,
   });
 
   return (
-    <article className="rounded-xl border border-gray-800 bg-[#121212] px-4 py-4 md:px-5 md:py-5 shadow-[0_1px_0_0_rgba(255,255,255,0.03)_inset]">
+    <article onClick={() => navigate(`/post/${post.id}`)} className="rounded-xl  border border-gray-800 bg-[#121212] px-4 py-4 md:px-5 md:py-5 shadow-[0_1px_0_0_rgba(255,255,255,0.03)_inset]" >
       {/* Header */}
-      <header className="flex items-start justify-between">
+      < header className="flex items-start justify-between" >
         <div className="flex items-center gap-3">
           <img
             src={
@@ -52,20 +53,24 @@ const PostCard: FC<{ post: PostType, LikeARR: Likes[] }> = ({ post, LikeARR }) =
         >
           <MoreHorizontal size={18} />
         </button>
-      </header>
+      </header >
 
       {/* Body */}
-      {post.title && (
-        <h3 className="mt-3 text-[15px] md:text-[16px] font-normal text-gray-100">
-          {post.title}
-        </h3>
-      )}
+      {
+        post.title && (
+          <h3 className="mt-3 text-[15px] md:text-[16px] font-normal text-gray-100">
+            {post.title}
+          </h3>
+        )
+      }
 
-      {post.content && (
-        <p className="mt-2 text-[14px] leading-6 text-gray-300">
-          {post.content}
-        </p>
-      )}
+      {
+        post.content && (
+          <p className="mt-2 text-[14px] leading-6 text-gray-300">
+            {post.content}
+          </p>
+        )
+      }
 
       {/* Media placeholder / image */}
       <div className="mt-3">
@@ -91,7 +96,7 @@ const PostCard: FC<{ post: PostType, LikeARR: Likes[] }> = ({ post, LikeARR }) =
           <Bookmark size={18} />
         </button>
       </footer>
-    </article>
+    </article >
   );
 };
 
