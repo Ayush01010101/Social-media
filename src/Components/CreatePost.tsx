@@ -1,10 +1,12 @@
-import type { FormEvent, ReactNode } from "react";
-import { LoaderCircle } from "lucide-react";
+import type { Dispatch, FC, FormEvent, ReactNode } from "react";
+import type { DragEvent } from "react";
+import { ArrowUp01Icon, CircleX, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../Context/AuthContext";
 import { fetchCommunities } from "./Communities";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRef, useEffect } from "react";
 import SupabaseClient from "../Instances/SupabaseClient";
 
 interface PostType {
@@ -17,14 +19,29 @@ interface PostType {
 
 }
 
-const Createpost = (): ReactNode => {
+const Createpost: FC<{ handleClick: () => void }> = ({ handleClick }): ReactNode => {
   const { User } = useAuth()
+  const [selectedFile, setSelectedFile] = useState<null | File>(null)
+  const [preview, setPreview] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const queryclient = useQueryClient()
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [community, setCommunity] = useState<string>('')
-  const { error: CommunityError, data: CommunityData } = useQuery({ queryFn: fetchCommunities, queryKey: ['communities'], refetchOnMount: false, refetchOnWindowFocus: false })
+
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(null);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
 
   const {
     mutate,
@@ -67,6 +84,7 @@ const Createpost = (): ReactNode => {
       }
     }
 
+
     mutate({
       title,
       content,
@@ -77,99 +95,99 @@ const Createpost = (): ReactNode => {
     });
   };
 
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files && files[0]) {
+      if (files[0].type.startsWith("image/")) {
+        setSelectedFile(files[0]);
+
+        console.log(selectedFile)
+      }
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+  };
   return (
-    <div className="flex justify-center items-center h-[70vh]">
-      <div className="bg-[#232946] shadow-2xl p-8 border-white rounded-2xl mx-4 sm:mx-0">
-        <h2 className="text-3xl font-bold text-center mb-6 text-[#E5E5E5]">
-          Create a New Post
-        </h2>
-        <form className="flex flex-col gap-5" onSubmit={HandleSubmit}>
+    <div className="fixed h-screen w-screen backdrop-blur-sm ">
+      <div className="mt-2.5 relative translate-y-17 sm:w-1/2 mx-auto  p-6 bg-[#121212] rounded-2xl text-gray-200">
+        <div className="absolute -top-14 right-3" onClick={() => handleClick()}> <CircleX /></div>
+
+
+
+
+        <form className="flex  flex-col gap-5" onSubmit={handleSubmit}>
           <div>
-            <label
-              className="block text-[#B8C1EC] font-semibold mb-2"
-              htmlFor="title"
-            >
-              Title
-            </label>
+            <label className="text-lg font-medium mb-2 block">Create Post</label>
             <input
-              id="title"
-              className="w-full px-4 py-2 rounded-lg bg-[#121629] text-[#E5E5E5] border border-[#393053] focus:outline-none focus:ring-2 focus:ring-purple-600 transition"
-              placeholder="Enter Title"
-              type="text"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-              required
+              className="w-full bg-[#1E1E1E] p-4 rounded-xl border border-transparent focus:border-purple-500 focus:ring-purple-500 focus:outline-none"
+              placeholder="Post Title"
+              type='text'
             />
           </div>
+
           <div>
-            <label
-              className="block text-[#B8C1EC] font-semibold mb-2"
-              htmlFor="content"
-            >
-              Content
-            </label>
+            <label className="text-lg font-medium mb-2 block">Description</label>
             <textarea
-              id="content"
-              placeholder="Enter your content"
-              className="w-full px-4 py-3 rounded-lg bg-[#121629] text-[#E5E5E5] border border-[#393053] focus:outline-none focus:ring-2 focus:ring-purple-600 transition resize-none min-h-[120px]"
-              onChange={(e) => setContent(e.target.value)}
-              value={content}
-              required
+              rows={4}
+              className="w-full bg-[#1E1E1E] p-4 rounded-xl border border-transparent focus:border-purple-500 focus:ring-purple-500 focus:outline-none"
+              placeholder="What is this post about?"
             />
           </div>
-          <select onChange={(e) => setCommunity(e.target.value)} className="text-gray-200 border-[1px] border-pink-500 outline-none rounded-md  p-3">
 
-            <option className="rounded-md text-black" value={''} selected>general</option>
-            {CommunityData && CommunityData.map((community) => {
-              return (<option className="text-black" value={community.id} key={community.id}>{community.name}</option>)
-            })}
-
-          </select>
           <div>
-            <label
-              className="block text-[#B8C1EC] font-semibold mb-2"
-              htmlFor="image"
+            <label className="text-lg font-medium mb-2 block">Community Image (Optional)</label>
+            <div
+              className={`flex justify-center items-center w-full p-6 border-2 ${isDragging ? 'border-purple-500' : 'border-gray-600'} border-dashed rounded-xl cursor-pointer transition-colors`}
+              onDrop={handleDrop}
+              onDrag={(e) => e.preventDefault()}
+
+              onDragEnter={(e) => e.preventDefault()}
+              onDragOver={(e) => e.preventDefault()}
+              onDragLeave={(e) => e.preventDefault()}
+
             >
-              Image (optional)
-            </label>
-            <input
-              id="image"
-              type="file"
-              accept="image/*"
-              className="block w-full text-[#B8C1EC] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#393053] file:text-[#E5E5E5] hover:file:bg-purple-700 transition"
-              onChange={(e) => {
-                if (e.target.files) {
-                  setSelectedFile(e.target.files[0]);
-                }
-              }}
-            />
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/*"
+              />
+              {preview ? (
+                <div className="relative w-full max-w-xs">
+                  <img src={preview} alt="Preview" className="w-full h-auto rounded-lg" /> <button
+                    type="button"
 
+                    onClick={() => setPreview(null)}
+                    className="absolute  top-1 right-1 bg-black bg-opacity-50 text-white rounded-full p-1 leading-none">&times;
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center">
 
-            {selectedFile && (
-              <div className="mt-2 text-sm text-[#E5E5E5]">
-                Selected:{" "}
-                <span className="font-medium">{selectedFile.name}</span>
-              </div>
-            )}
-          </div>
-          {isError && (
-            <div className="text-red-700 font-light text-sm ">
-              {error instanceof Error ? error.message : String(error)}
+                  <p className="mb-2 text-sm text-gray-400">
+                    <span className="font-semibold text-purple-400 flex gap-2" ><ArrowUp01Icon color="white" /> Click to upload</span> or drag and         drop
+                  </p>
+                  <p className="text-xs text-gray-500">PNG, JPG, or GIF</p>
+
+                </div>
+              )}
             </div>
-          )}
+
+          </div>
+
           <button
+            className="text-gray-200 mt-5 bg-[#9333EA] rounded-xl text-xl font-medium p-4 hover:bg-purple-700 transition-colors disabled:bg-gray-500"
             type="submit"
-            className="mt-4 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-bold py-3 rounded-lg shadow-lg transition transform hover:scale-105"
             disabled={isPending}
           >
-            {isPending ? (
-              <div className="flex justify-center">
-                <LoaderCircle className="animate-spin" />
-              </div>
-            ) : (
-              "Create Post"
-            )}
+            {isPending ? 'Creating...' : 'Create Post'}
           </button>
+
+          {isError && <p className="text-red-500 text-sm text-center mt-2">{error.message}</p>}
         </form>
       </div>
     </div >
@@ -177,4 +195,5 @@ const Createpost = (): ReactNode => {
 };
 
 export default Createpost;
+
 
