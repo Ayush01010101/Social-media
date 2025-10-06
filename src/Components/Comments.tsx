@@ -51,7 +51,7 @@ const Comments: React.FC<Props> = ({ postid }): ReactNode => {
       },
 
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['comments'] })
+        queryClient.invalidateQueries({ queryKey: [`comments-${postid}`] })
       }
     });
 
@@ -83,6 +83,7 @@ const Comments: React.FC<Props> = ({ postid }): ReactNode => {
 
           {isPending ? <div className="flex justify-center gap-3"><LoaderCircle className="animate-spin" /> Create Comment</div> : <p>Create Comment</p>}
         </button>
+
       </form>
     </div>
   );

@@ -9,7 +9,7 @@ import CommentList from "./CommentList";
 
 const PostDetail = (): ReactNode => {
   const { id: postId } = useParams<{ id: string }>();
-
+  console.log(postId)
   const fetchPost = async (id: string): Promise<PostType> => {
     const { data, error } = await SupabaseClient.from("Posts")
       .select("*")
@@ -69,6 +69,7 @@ const PostDetail = (): ReactNode => {
 
   // Destructure post data for cleaner JSX
   const { title, content, imageURL, author_name, avatar_url, created_at_formatted } = post;
+
 
   return (
     <main className="w-full max-w-4xl  mx-auto px-4 sm:px-6 lg:px-8 py-16">
