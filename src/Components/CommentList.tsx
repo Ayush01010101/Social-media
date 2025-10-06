@@ -1,10 +1,13 @@
 import type { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import SupabaseClient from "../Instances/SupabaseClient";
+import RepliesList from "./RepliesList";
 import { formatDistanceToNow } from "date-fns";
 
 const CommentList = ({ postid }: { postid: number }): ReactNode => {
+  console.log(postid)
   interface comment {
+    id: number
     created_at: string,
     post_id: number,
     author_name: string,
@@ -14,11 +17,10 @@ const CommentList = ({ postid }: { postid: number }): ReactNode => {
   const FetchComments = async (): Promise<comment[]> => {
     const { data, error } = await SupabaseClient.from("Comments").select('*').eq('post_id', postid).order('created_at', { ascending: false })
     if (error) throw new Error("Failed to fetch commments")
-    console.log(data)
 
     return data;
   }
-  const { data, error } = useQuery({ queryFn: FetchComments, queryKey: ['comments'], refetchOnWindowFocus: false, refetchOnMount: false })
+  const { data, error } = useQuery({ queryFn: FetchComments, queryKey: [`comments-${postid}`], refetchOnWindowFocus: false, refetchOnMount: false })
 
   if (data && data.length == 0) {
     return <></>
@@ -33,7 +35,7 @@ const CommentList = ({ postid }: { postid: number }): ReactNode => {
 
 
             return (
-              <div className="p-6  shadow-[1px_2px_5px_1px_rgba(0,0,0,0.7)] shadow-black/45  text-gray-300 flex flex-col  rounded-md">
+              <div className="p-6   shadow-[1px_2px_5px_1px_rgba(0,0,0,0.7)] shadow-black/45  text-gray-300 flex flex-col  rounded-md">
                 <div className="text-sm py-1 flex gap-3  items-center">
                   <p>{comment.author_name}</p>
                   <p className="p-2 bg-black/20 rounded-xl"> {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</p>
@@ -43,6 +45,11 @@ const CommentList = ({ postid }: { postid: number }): ReactNode => {
 
                   {comment.content}
                 </div>
+
+                <div className="">
+                  <RepliesList commentid={comment.id} />
+                </div>
+
               </div>
             )
           })}
