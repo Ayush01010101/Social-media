@@ -54,11 +54,11 @@ const ReplyComment: FC<{ commentID: number }> = ({ commentID }): ReactNode => {
 
   }
   return (
-    <div>
-      <form className="flex text-white flex-wrap items-center gap-3" onSubmit={(e) => handleSubmit(e)}>
-        <input onChange={(e) => setCommentContent(e.target.value)} value={commentContent} placeholder="Enter your comment" className="p-2 bg-[#121212] rounded-xl " />
-        <button className="self-start p-2" type="submit">Submit</button>
-      </form>
+    <div >
+      < form className="flex text-white flex-wrap items-center gap-3" onSubmit={(e) => handleSubmit(e)}>
+        <input onChange={(e) => setCommentContent(e.target.value)} value={commentContent} placeholder="Enter your comment" className="py-2 px-7 bg-[#121212] rounded-xl  " />
+        <button className="self-start py-1 hover:scale-110 px-4 bg-purple-800 rounded-xl " type="submit">Submit</button>
+      </form >
     </div >
   )
 }
@@ -70,7 +70,7 @@ const RepliesList: FC<{ commentid: number }> = ({ commentid }) => {
 
   return (
     <div className="flex flex-col">
-      <div className="self-end cursor-pointer " onClick={() => setIsopen((prev) => !prev)} >{isopen ? <ChevronUp /> : <ChevronDown />}</div>
+      <div className="self-end  cursor-pointer " onClick={() => setIsopen((prev) => !prev)} >{isopen ? <ChevronUp /> : <ChevronDown />}</div>
       {isopen && <div className=""><ReplyComment commentID={commentid} /> <RepliesCard commentid={commentid} /></div>}
 
     </div >
