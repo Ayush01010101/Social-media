@@ -1,12 +1,9 @@
 import type { FC, ReactNode } from "react";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-
 import type { CommunitiesType } from "./Communities";
 import CommunityPostsList from "./CommunityPostsList";
 import SupabaseClient from "../Instances/SupabaseClient";
-
-// A dedicated skeleton component for the header
 const CommunityHeaderSkeleton: FC = (): ReactNode => (
   <div className="animate-pulse px-4">
     <div className="h-8 w-2/5 rounded-md bg-neutral-700 mb-4"></div>
@@ -15,6 +12,7 @@ const CommunityHeaderSkeleton: FC = (): ReactNode => (
 );
 
 const CommunityPosts: FC = (): ReactNode => {
+
   const { communityid } = useParams();
 
   async function fetchCommunityDetails(): Promise<CommunitiesType> {
@@ -45,7 +43,6 @@ const CommunityPosts: FC = (): ReactNode => {
     return (
       <div className="container mx-auto px-4 py-8">
         <CommunityHeaderSkeleton />
-        {/* You could also show the PostSkeleton here for a better UX */}
       </div>
     );
   }
@@ -71,7 +68,6 @@ const CommunityPosts: FC = (): ReactNode => {
         </p>
       </header>
 
-      {/* Posts Section */}
       <main>
         <CommunityPostsList />
       </main>

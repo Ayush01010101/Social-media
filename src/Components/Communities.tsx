@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import type { ReactNode, ChangeEvent } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import SupabaseClient from "../Instances/SupabaseClient";
@@ -14,23 +15,33 @@ export interface CommunitiesType {
 }
 
 export const fetchCommunities = async (): Promise<CommunitiesType[]> => {
-
   const { data, error } = await SupabaseClient.from("Communities").select('*').order('created_at', { ascending: false }).limit(10);
   if (error) throw new Error('failed to fetch Communities');
 
-  return data as CommunitiesType[]
+  return data as CommunitiesType[];
 };
-
 
 const Communities = (): ReactNode => {
   const navigate = useNavigate();
   const { data, isPending } = useQuery({ queryFn: fetchCommunities, queryKey: ['communities'] });
 
+  const [search, setSearch] = useState("");
   const categories = ["All", "Technology", "Gaming", "Art & Design", "Music", "Sports", "Education"];
+
+  // Filtered data based on search text
+  const filteredData = useMemo(() => {
+    if (!data) return [];
+    if (!search.trim()) return data;
+    const lower = search.toLowerCase();
+    return data.filter(
+      (community) =>
+        community.name.toLowerCase().includes(lower) ||
+        community.description.toLowerCase().includes(lower)
+    );
+  }, [data, search]);
 
   return (
     <div className="bg-[rgba(10,10,10,1)]  text-gray-200 min-h-screen p-8 font-sans">
-
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="mb-8">
@@ -46,6 +57,8 @@ const Communities = (): ReactNode => {
             </span>
             <input
               type="text"
+              value={search}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
               placeholder="Search by name or topic..."
               className="w-full bg-[#121212] border border-gray-700 rounded-md py-2 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
@@ -70,7 +83,7 @@ const Communities = (): ReactNode => {
           <p>Loading communities...</p>
         ) : (
           <div className="grid overflow-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data?.map((community) => {
+            {filteredData.length > 0 ? filteredData.map((community) => {
               return (
                 <div key={community.id} className="bg-[#121212] rounded-xl p-6  flex flex-col gap-4 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300 cursor-pointer" onClick={() => navigate(`/community/${community.id}`)}>
 
@@ -91,7 +104,12 @@ const Communities = (): ReactNode => {
                   </button>
                 </div>
               );
-            })}
+            })
+            : (
+              <div className="col-span-full text-center text-gray-400 py-8">
+                No communities found.
+              </div>
+            )}
           </div>
         )}
 

@@ -69,6 +69,7 @@ const CommunityPostsList: FC = (): ReactNode => {
     );
   }
 
+  console.log(data)
   return (
     <div className="flex flex-col items-center gap-6 py-8">
       {data.map((post) => (
@@ -77,13 +78,20 @@ const CommunityPostsList: FC = (): ReactNode => {
           className="w-full max-w-2xl px-2 sm:px-0 animate-fadeIn"
         >
           <PostCard
-            authorName={post.author_name}
-            authorAvatar={post.avatar_url || ""}
-            createdAt={post.created_at}
-            imageURL={post.imageURL}
-            title={post.title}
-            content={post.content}
-            id={post.id}
+            post={
+              {
+                author_name: post.author_name,
+                avatar_url: post.avatar_url || "",
+                created_at: post.created_at,
+                imageURL: post.imageURL,
+                community_id: post.community_id,
+                title: post.title,
+                content: post.content,
+                id: post.id,
+              }
+            }
+
+
           />
         </div>
       ))}
