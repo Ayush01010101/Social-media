@@ -13,10 +13,9 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
-const PostCard: FC<{ post: PostType, LikeARR: Likes[] }> = ({ post, LikeARR }) => {
-
+const PostCard: FC<{ post: PostType, LikeARR: Likes[] }> = ({ post, LikeARR = [] }) => {
   const navigate = useNavigate()
-  const timeAgo = formatDistanceToNow(new Date(post.created_at), {
+  const timeAgo = formatDistanceToNow(new Date(post?.created_at), {
     addSuffix: true,
   });
 
