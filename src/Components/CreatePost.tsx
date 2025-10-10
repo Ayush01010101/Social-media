@@ -153,7 +153,7 @@ const Createpost: FC<{ handleClick: () => void }> = ({ handleClick }): ReactNode
           </div>
 
           <div >
-            <label className="text-lg font-medium mb-2 block">Community Image (Optional)</label>
+            <label className="text-lg font-medium mb-2 block">Post Image (Optional)</label>
             <div
               className={`flex justify-center items-center w-full p-6 border-2 ${isDragging ? 'border-purple-500' : 'border-gray-600'} border-dashed rounded-xl cursor-pointer transition-colors`}
 
