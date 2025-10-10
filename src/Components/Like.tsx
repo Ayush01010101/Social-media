@@ -16,16 +16,6 @@ const Like: FC<props> = ({ postID, like, LikesARR }): ReactNode => {
   const queryclient = useQueryClient()
   const { User } = useAuth()
   const isLiked = LikesARR.find((obj: Likes) => obj.post_id == postID && obj.user_id == User?.id)
-  async function getLike() {
-    const { data, error } = await SupabaseClient
-      .from('Likes')
-      .select('*')
-      .eq('user_id', User?.id)
-      .eq('post_id', postID);
-
-    return data;
-  }
-
   async function addLike() {
     if (isLiked) {
       const { data, error } = await SupabaseClient.from("Likes").delete().match({
@@ -43,14 +33,17 @@ const Like: FC<props> = ({ postID, like, LikesARR }): ReactNode => {
   }
 
 
-
   const { mutate, error } = useMutation({
-    mutationFn: addLike, onSuccess: () => {
-      queryclient.invalidateQueries({ queryKey: ['postlist'] })
+    mutationFn: addLike,
+    onSuccess: () => {
+      queryclient.invalidateQueries({ queryKey: ["fetchUserslikes"] })
     }
   })
   return (
-    <div onClick={() => mutate()} className="flex items-center text-gray-400 hover:text-gray-200 flex-wrap gap-2 ">
+    <div onClick={(e) => {
+      e.stopPropagation()
+      mutate()
+    }} className="flex items-center text-gray-400 hover:text-gray-200 flex-wrap gap-2 ">
       <Heart fill={isLiked ? 'red' : ''} size={18} />
       <div>{like}</div>
 

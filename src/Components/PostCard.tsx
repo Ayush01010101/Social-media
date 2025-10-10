@@ -21,9 +21,9 @@ const PostCard: FC<{ post: PostType, LikeARR: Likes[] }> = ({ post, LikeARR }) =
   });
 
   return (
-    <article onClick={() => navigate(`/post/${post.id}`)} className="rounded-xl  border border-gray-800 bg-[#121212] px-4 py-4 md:px-5 md:py-5 shadow-[0_1px_0_0_rgba(255,255,255,0.03)_inset]" >
+    <article onClick={() => navigate(`/post/${post.id}`)} className="rounded-xl border border-gray-800 bg-[#121212] px-4 py-4 md:px-5 md:py-5 shadow-[0_1px_0_0_rgba(255,255,255,0.03)_inset]" >
       {/* Header */}
-      < header className="flex items-start justify-between" >
+      < header className="flex items-start justify-between " >
         <div className="flex items-center gap-3">
           <img
             src={

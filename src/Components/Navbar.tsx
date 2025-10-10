@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { CircleUser, Settings, Menu, X, Home, Users, Plus, Bell } from "lucide-react";
 import { useAuth } from "../Context/AuthContext";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { SignInWithGoogle, User } = useAuth();
   const ActivePath = useLocation().pathname;
+  const navigate = useNavigate();
 
   const getNavLinkClass = (path: string, base: string, active: string) =>
     ActivePath === path ? `${base} ${active}` : base;
 
-  // Bottom nav config
   const bottomItems = [
     { to: "/", label: "Home", icon: Home },
     { to: "/communities", label: "Communities", icon: Users },
@@ -24,7 +24,10 @@ const Navbar = () => {
     <nav className="fixed border-[1px] rounded-xl border-gray-800 top-0 left-0 w-full z-[10] p-3 bg-[rgba(10,10,10,0.8)]">
       <div className="max-w-[1200px] mx-auto flex items-center justify-between py-3 px-6">
         {/* Left: Logo */}
-        <div className="font-bold flex gap-1 text-2xl text-white">
+        <div
+          className="font-bold flex gap-1 text-2xl text-white cursor-pointer"
+          onClick={() => navigate('/')}
+        >
           <span className="text-purple-500">Charcha</span>
           <span>Point</span>
         </div>
