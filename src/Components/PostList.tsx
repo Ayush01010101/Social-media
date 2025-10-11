@@ -91,7 +91,7 @@ const PostList: FC = () => {
 
   if (!data?.length) {
     return (
-      <div className="rounded-xl border border-gray-800 bg-[#11141a] p-8 text-center text-gray-300">
+      <div className="rounded-xl  bg-[#121212] p-8 text-center text-gray-300">
         No posts yet. Be the first to share something!
       </div>
     );
