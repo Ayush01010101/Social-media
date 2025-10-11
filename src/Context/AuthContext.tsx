@@ -19,7 +19,7 @@ const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ children }): R
   const [User, setUser] = useState<undefined | User>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   useEffect(() => {
-    SupabaseClient.auth.getSession().then(({ data, error }) => {
+    SupabaseClient.auth.getSession().then(({ data }) => {
       if (data) {
         setUser(data.session?.user)
         setIsLoading(false)

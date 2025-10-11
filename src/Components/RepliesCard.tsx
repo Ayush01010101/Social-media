@@ -15,7 +15,7 @@ export interface RepliesType {
   comment_id: number
 }
 
-async function FetchReplies(commentid: number, userid: string): Promise<RepliesType[] | null> {
+async function FetchReplies(commentid: number): Promise<RepliesType[] | null> {
   const { data, error } = await SupabaseClient.from("Replies").select("*").eq('comment_id', commentid).order('created_at', { ascending: false })
   console.log(data)
   if (error) return null;
@@ -25,7 +25,7 @@ async function FetchReplies(commentid: number, userid: string): Promise<RepliesT
 const RepliesCard: FC<{ commentid: number }> = ({ commentid }): ReactNode => {
   const { User } = useAuth()
   if (!User?.id) return
-  const { data } = useQuery({ queryFn: () => FetchReplies(commentid, User.id), queryKey: [`Replies-${commentid}`], refetchOnWindowFocus: false, refetchOnMount: false })
+  const { data } = useQuery({ queryFn: () => FetchReplies(commentid), queryKey: [`Replies-${commentid}`], refetchOnWindowFocus: false, refetchOnMount: false })
   return (
     <div className="bg-[#121212]  flex gap-5 flex-col rounded-xl  mt-5 max-h-1/2 ">
       <div className="flex max-h-96 no-scrollbar gap-5  flex-col  overflow-auto">
