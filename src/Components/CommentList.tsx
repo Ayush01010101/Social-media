@@ -21,7 +21,7 @@ const CommentList = ({ postid }: { postid: number }): ReactNode => {
 
     return data;
   }
-  const { data, error } = useQuery({ queryFn: FetchComments, queryKey: [`comments-${postid}`], refetchOnWindowFocus: false, refetchOnMount: false })
+  const { data } = useQuery({ queryFn: FetchComments, queryKey: [`comments-${postid}`], refetchOnWindowFocus: false, refetchOnMount: false })
 
   if (data && data.length == 0) {
     return <></>

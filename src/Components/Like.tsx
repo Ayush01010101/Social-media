@@ -1,8 +1,8 @@
-import { useState, type FC, type ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
 import { Heart } from 'lucide-react'
 import SupabaseClient from "../Instances/SupabaseClient";
 import { useAuth } from "../Context/AuthContext";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Likes } from "./PostList";
 interface props {
   postID: number;
@@ -18,22 +18,21 @@ const Like: FC<props> = ({ postID, like, LikesARR }): ReactNode => {
   const isLiked = LikesARR.find((obj: Likes) => obj.post_id == postID && obj.user_id == User?.id)
   async function addLike() {
     if (isLiked) {
-      const { data, error } = await SupabaseClient.from("Likes").delete().match({
+      await SupabaseClient.from("Likes").delete().match({
         user_id: User?.id,
         post_id: postID
       })
     } else {
-      const { data, error } = await SupabaseClient.from("Likes").insert({
+      await SupabaseClient.from("Likes").insert({
         user_id: User?.id,
         post_id: postID,
         likes: 1
       })
-
     }
   }
 
 
-  const { mutate, error } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: addLike,
     onSuccess: () => {
       queryclient.invalidateQueries({ queryKey: ["fetchUserslikes"] })

@@ -32,7 +32,7 @@ const PostDetail = (): ReactNode => {
     return formattedData as PostType;
   };
 
-  const { data: post, isLoading, isError, error } = useQuery({
+  const { data: post, isLoading, isError, error } = useQuery<PostType & { created_at_formatted?: string }>({
     queryKey: ["post", postId],
     refetchOnMount: false, refetchOnWindowFocus: false,
     queryFn: () => {
@@ -67,8 +67,13 @@ const PostDetail = (): ReactNode => {
     );
   }
 
-  // Destructure post data for cleaner JSX
-  const { title, content, imageURL, author_name, avatar_url, created_at_formatted } = post;
+  // Safely access fields
+  const title = post?.title || '';
+  const content = post?.content || '';
+  const imageURL = post?.imageURL || '';
+  const author_name = post?.author_name || '';
+  const avatar_url = post?.avatar_url || '';
+  const created_at_formatted = (post as any)?.created_at_formatted || '';
 
 
   return (

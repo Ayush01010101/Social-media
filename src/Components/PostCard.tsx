@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import type { FC } from "react";
 import type { Likes, PostType } from "./PostList";

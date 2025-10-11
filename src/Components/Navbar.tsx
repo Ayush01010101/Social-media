@@ -31,6 +31,7 @@ const Navbar = () => {
         </div>
       )}
 
+      {/* Top Navbar */}
       <nav className="fixed border-[1px] rounded-xl border-gray-800 top-0 left-0 w-full z-[10] p-3 bg-[rgba(10,10,10,0.8)] backdrop-blur-md">
         <div className="max-w-[1200px] mx-auto flex items-center justify-between py-3 px-6">
           <div
@@ -60,16 +61,14 @@ const Navbar = () => {
               <div
                 className="relative"
                 onMouseEnter={() => setIsProfileMenuOpen(true)}
-
               >
                 <img className="h-8 w-8 rounded-full cursor-pointer" src={`${User.user_metadata.avatar_url}`} alt="user avatar" />
                 {isProfileMenuOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-48 bg-[#1f1f23] border  border-gray-700 rounded-md shadow-lg">
+                  <div className="absolute top-full right-0 mt-2 w-48 bg-[#1f1f23] border border-gray-700 rounded-md shadow-lg">
                     <button
-                      onClick={Signout}
-                      onMouseEnter={() => setIsProfileMenuOpen(true)}
                       onMouseLeave={() => setIsProfileMenuOpen(false)}
-                      className="w-full  text-left px-4 py-2 text-sm text-white hover:bg-purple-600 rounded-md transition-colors"
+                      onClick={Signout}
+                      className="w-full text-left px-4 py-2 text-sm text-white hover:bg-purple-600 rounded-md transition-colors"
                     >
                       Sign out
                     </button>
@@ -89,29 +88,30 @@ const Navbar = () => {
             {menuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
-
-        <div className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-[#1f1f23] border-t border-gray-800 flex justify-between items-center px-2 py-1">
-          {bottomItems.map(({ to, label, icon: Icon, center, handleAction }) => (
-            <Link
-              key={to}
-              onClick={handleAction ? () => handleAction() : () => { }}
-              to={to}
-              className={`${center ? "relative" : "flex-1"} flex flex-col items-center justify-center text-xs ${ActivePath === to ? "text-white" : "text-gray-400"}`}
-            >
-              {center ? (
-                <span className="bg-purple-600 rounded-full p-3 -mt-6 shadow-lg">
-                  <Icon size={26} className="text-white" />
-                </span>
-              ) : (
-                <>
-                  <Icon size={22} />
-                  <span className="mt-0.5">{label}</span>
-                </>
-              )}
-            </Link>
-          ))}
-        </div>
       </nav>
+
+      {/* Mobile Bottom Bar - Ab yeh Nav ke bahar hai */}
+      <div className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-[#1f1f23] border-t border-gray-800 flex justify-between items-center px-2 py-1">
+        {bottomItems.map(({ to, label, icon: Icon, center, handleAction }) => (
+          <Link
+            key={label} // Use label or a combination for a more stable key
+            onClick={handleAction ? (e) => { e.preventDefault(); handleAction(); } : () => { }}
+            to={to}
+            className={`${center ? "relative" : "flex-1"} flex flex-col items-center justify-center text-xs py-1 ${ActivePath === to ? "text-purple-400" : "text-gray-400"}`}
+          >
+            {center ? (
+              <span className="bg-purple-600 rounded-full p-3 -mt-6 shadow-lg border-4 border-[#1f1f23]">
+                <Icon size={26} className="text-white" />
+              </span>
+            ) : (
+              <>
+                <Icon size={22} />
+                <span className="mt-0.5">{label}</span>
+              </>
+            )}
+          </Link>
+        ))}
+      </div>
     </>
   );
 };

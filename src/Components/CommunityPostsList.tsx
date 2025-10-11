@@ -77,22 +77,7 @@ const CommunityPostsList: FC = (): ReactNode => {
           key={post.id}
           className="w-full max-w-2xl px-2 sm:px-0 animate-fadeIn"
         >
-          <PostCard
-            post={
-              {
-                author_name: post.author_name,
-                avatar_url: post.avatar_url || "",
-                created_at: post.created_at,
-                imageURL: post.imageURL,
-                community_id: post.community_id,
-                title: post.title,
-                content: post.content,
-                id: post.id,
-              }
-            }
-
-
-          />
+          <PostCard post={post} LikeARR={[]} />
         </div>
       ))}
     </div>

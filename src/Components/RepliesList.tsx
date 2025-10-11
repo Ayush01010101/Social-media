@@ -43,7 +43,7 @@ const ReplyComment: FC<{ commentID: number }> = ({ commentID }): ReactNode => {
 
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!User || !commentContent) {
       throw new Error("Please Login or provide content")
