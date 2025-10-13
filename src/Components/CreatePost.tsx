@@ -8,6 +8,7 @@ import { fetchCommunities, type CommunitiesType } from "./Communities";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRef, useEffect } from "react";
 import SupabaseClient from "../Instances/SupabaseClient";
+import { createPortal } from "react-dom";
 interface CommunitySelectionModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -28,12 +29,12 @@ const CommunitySelectionModal: FC<CommunitySelectionModalProps> = ({ isOpen, onC
     );
   }, [communities, searchTerm]);
 
-  if (!isOpen) return null;
 
+  if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
-      <div className="bg-[#1E1E1E] rounded-2xl w-11/12 md:w-1/2 lg:w-1/3 max-h-[80vh] flex flex-col p-6 border border-neutral-700">
-        <div className="flex justify-between items-center mb-4">
+    <div className="fixed inset-0  z-50 flex items-center justify-center bg-black bg-opacity-70">
+      <div className="bg-[#1E1E1E] rounded-2xl w-11/12 md:w-1/2 lg:w-1/3 max-h-[80vh]  flex flex-col p-6 border border-neutral-700 " >
+        <div className="flex justify-between items-center mb-4 check">
           <h2 className="text-xl font-semibold text-gray-200">Select a Community</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white">
             <CircleX />
@@ -190,11 +191,10 @@ const Createpost: FC<{ handleClick: () => void }> = ({ handleClick }): ReactNode
     setIsDragging(false);
   };
 
-
-  return (
+  return createPortal(
     <>
       <div className="fixed inset-0 h-screen w-screen backdrop-blur-sm z-40">
-        <div className="relative mt-10 sm:mt-16 h-[90vh] sm:h-auto sm:max-h-[90vh] no-scrollbar overflow-y-auto sm:w-1/2 mx-auto p-6 bg-[#121212] rounded-2xl text-gray-200">
+        <div className="relative  mt-24  h-[90vh] sm:h-auto sm:max-h-[90vh] no-scrollbar overflow-y-auto sm:w-1/2 mx-auto p-6 bg-[#121212] rounded-2xl text-gray-200">
           <div className="absolute right-6 top-6 cursor-pointer" onClick={handleClick}> <CircleX /></div>
           <form className="flex flex-col gap-5" onSubmit={HandleSubmit}>
             <div>
@@ -276,7 +276,8 @@ const Createpost: FC<{ handleClick: () => void }> = ({ handleClick }): ReactNode
         onClose={() => setIsCommunityModalOpen(false)}
         onSelect={setSelectedCommunity}
       />
-    </>
+    </>,
+    document.getElementById('popups') as HTMLElement
   );
 };
 

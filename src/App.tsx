@@ -17,8 +17,6 @@ function App() {
         <Route path="/communities" element={<CommunitiesPage />} />
         <Route path="/community/:communityid" element={<CommunityPostsPage />} />
 
-
-
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
