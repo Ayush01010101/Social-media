@@ -46,7 +46,7 @@ const LandingPage = () => {
   const clarityOpacity = Math.min(1, scrollProgress / 50)
 
   return (
-    <div className="bg-charcha-bg  text-charcha-text-light min-h-screen overflow-x-hidden">
+    <div className="bg-charcha-bg  text-charcha-text-light min-h-screen overflow-x-hidden flex flex-col">
       <Particles />
       <div className="fixed inset-0 pointer-events-none z-0" style={{ opacity: noiseOpacity }}>
         <div className="absolute top-20 left-10 w-64 h-0.5 bg-gradient-to-r from-transparent via-charcha-text-muted/20 to-transparent animate-noise-1"></div>
@@ -263,33 +263,39 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="relative py-16 md:py-32 px-6 bg-transparent">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12 md:mb-20">
-            <h2 className="text-3xl md:text-6xl font-bold mb-4 md:mb-6">
-              Voices of <span className="text-charcha-purple">Clarity</span>
-            </h2>
-            <p className="text-base md:text-xl text-charcha-text-muted">What early adopters are saying</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            <div className="group bg-charcha-surface border border-charcha-border rounded-2xl transition-all duration-300 hover:border-charcha-purple hover:animate-glow-pulse p-5 md:p-8 h-44 md:h-80 flex items-center justify-center">
-              <div>
-                <div className="mb-4 md:mb-6 flex justify-center">
-                  <svg
-                    className="w-8 h-8 md:w-10 md:h-10 text-charcha-purple opacity-50"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983" />
-                  </svg>
-                </div>
-                {/* Add testimonial text/content here if needed */}
-              </div>
+      <footer className="z-30  relative bg-[#121212]/75 w-full mt-auto bg-charcha-bg/80 border-t border-white/10 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-6 py-10 sm:py-14 flex flex-col md:flex-row items-center md:items-start justify-between gap-10 sm:gap-16">
+          <div className="flex flex-col items-center md:items-start gap-4 mb-5 md:mb-0">
+            <div className="flex items-center gap-2">
+              <MessageCircle className="w-7 h-7 text-charcha-purple" />
+              <span className="font-bold text-xl text-charcha-text-light">Charcha Point</span>
             </div>
-            {/* Repeat testimonials as needed */},          </div>
+            <p className="text-sm sm:text-base text-charcha-text-muted md:max-w-xs text-center md:text-left">
+              A new kind of space for meaningful discussions & clarity, away from the noise of usual social media.
+            </p>
+          </div>
+
+          {/* Newsletter / Call to action */}
+          <div className="flex flex-col items-center md:items-end gap-3 w-full md:w-auto">
+            <p className="text-base font-semibold text-charcha-text-light mb-1">Get Early Access</p>
+            <button
+              onClick={() => SignInWithGoogle()}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-charcha-purple text-white font-semibold hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-charcha-purple transition-all shadow shadow-charcha-purple/25"
+            >
+              <img className="h-6" src="https://static.vecteezy.com/system/resources/previews/046/861/647/non_2x/google-logo-transparent-background-free-png.png" alt="Google Icon" />
+              Join with Google
+            </button>
+            <p className="text-xs text-charcha-text-muted mt-1">No spam, just an invite to our alpha 🚀</p>
+          </div>
         </div>
-      </section>
-    </div>
+        <div className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-6 py-4 border-t border-white/5 text-xs text-charcha-text-muted">
+          <span className="mb-2 md:mb-0">&copy; {new Date().getFullYear()} Charcha Point. All rights reserved.</span>
+          <span>
+            Built with <span className="text-charcha-purple">♥</span> for meaningful conversations.
+          </span>
+        </div>
+      </footer >
+    </div >
   )
 }
 
