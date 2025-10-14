@@ -1,9 +1,13 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import Particles from "./Particles"
 import { MessageCircle, Shield, Users, Target, MoveDown } from "lucide-react"
 import { useAuth } from "../Context/AuthContext"
+
+const CARD_CONTENT_STYLE = "flex flex-col justify-center h-full";
+const ICON_CARD_STYLE =
+  "relative flex items-center justify-center p-5 md:p-2 md:h-10 w-fit mx-auto";
+const INFO_CARD_STYLE =
+  "flex flex-col justify-center md:h-80";
 
 const LandingPage = () => {
   const [visibleSections, setVisibleSections] = useState<number[]>([])
@@ -67,8 +71,8 @@ const LandingPage = () => {
       </div>
 
       {/* === NAVBAR UPDATED HERE === */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-charcha-bg/60 backdrop-blur-lg border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <nav className="fixed top-0  left-0 right-0 z-50 bg-charcha-bg/60 backdrop-blur-lg border-b border-white/5">
+        <div className="max-w-7xl bg-black mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-24">
             <div className="flex items-center gap-2">
               <MessageCircle size={30} className="text-charcha-purple" />
@@ -79,7 +83,7 @@ const LandingPage = () => {
               onClick={() => {
                 SignInWithGoogle()
               }}
-              className="flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 cursor-pointer bg-[#1E1E1E]  rounded-lg bg-charcha-surface/50 hover:bg-charcha-surface transition-colors duration-300 group"
+              className="flex center items-center gap-3 px-3 py-2 md:px-4 md:py-3 cursor-pointer bg-[#1E1E1E]  rounded-lg bg-charcha-surface/50 hover:bg-charcha-surface transition-colors duration-300 group"
             >
               <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -167,72 +171,107 @@ const LandingPage = () => {
           <p className="text-base md:text-xl text-charcha-text-muted">A journey designed for meaningful connection</p>
         </div>
         <div className="max-w-7xl mx-auto space-y-20 md:space-y-32">
+          {/* Step 1 */}
           <div
-            className={`journey-section grid md:grid-cols-2 gap-8 md:gap-12 items-center transition-all duration-1000 ${visibleSections.includes(1) ? "opacity-100" : "opacity-0"}`}
+            className={`journey-section grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 md:gap-12 md:h-56 items-center transition-all duration-1000 ${visibleSections.includes(1) ? "opacity-100" : "opacity-0"}`}
             data-section="1"
           >
-            <div className={`${visibleSections.includes(1) ? "animate-fadeInLeft" : ""}`}>
-              <div className="relative">
-                <div className="absolute inset-0 bg-charcha-purple/20 rounded-3xl blur-2xl"></div>
-                <div className="relative bg-charcha-surface border border-charcha-border rounded-3xl p-6 md:p-12 flex items-center justify-center h-56 md:h-80">
-                  <Target className="w-20 h-20 md:w-32 md:h-32 text-charcha-purple opacity-80" />
+            {/* Left: Card Logo */}
+            <div className={`flex flex-row items-start sm:items-start md:items-center gap-4 md:gap-0 ${CARD_CONTENT_STYLE} w-full md:w-auto`}>
+              <div className="flex-shrink-0 flex items-center justify-center w-20 h-20 md:w-32 md:h-32">
+                <div className={ICON_CARD_STYLE}>
+                  <Target className="w-16 h-16 md:w-32 md:h-32 text-charcha-purple opacity-80" />
                 </div>
               </div>
+              {/* Right: Step Info (mobile only) */}
+              <div className={`flex flex-col md:hidden w-full min-w-0 overflow-hidden ${visibleSections.includes(1) ? "animate-fadeInRight" : ""}`}>
+                <div className="inline-block px-3 py-1.5 bg-charcha-purple/10 rounded-full text-charcha-purple font-semibold mb-2">
+                  Step 1
+                </div>
+                <h3 className="text-xl font-bold mb-2 whitespace-normal break-words">Curated Spaces</h3>
+                <p className="text-sm text-charcha-text-muted leading-relaxed break-words">
+                  Join communities based on interest, not algorithms. Your feed is what you choose it to be. Take control of your experience and connect with topics that inspire you.
+                </p>
+              </div>
             </div>
-            <div className={`${visibleSections.includes(1) ? "animate-fadeInRight" : ""}`}>
+            {/* Desktop-only Info (right side) */}
+            <div className={`hidden md:flex flex-col justify-center ${INFO_CARD_STYLE} ${visibleSections.includes(1) ? "animate-fadeInRight" : ""}`}>
               <div className="inline-block px-3 py-1.5 md:px-4 md:py-2 bg-charcha-purple/10 rounded-full text-charcha-purple font-semibold mb-3 md:mb-4">
                 Step 1
               </div>
-              <h3 className="text-2xl md:text-5xl font-bold mb-4 md:mb-6">Curated Spaces</h3>
-              <p className="text-base md:text-xl text-charcha-text-muted leading-relaxed">
-                Join communities based on interest, not algorithms. Your feed is what you choose it to be. Take control
-                of your experience and connect with topics that inspire you.
+              <h3 className="text-2xl md:text-5xl font-bold mb-4 md:mb-6 whitespace-normal break-words">Curated Spaces</h3>
+              <p className="text-base md:text-xl text-charcha-text-muted leading-relaxed break-words">
+                Join communities based on interest, not algorithms. Your feed is what you choose it to be. Take control of your experience and connect with topics that inspire you.
               </p>
             </div>
           </div>
 
+          {/* Step 2 - Shield */}
           <div
-            className={`journey-section grid md:grid-cols-2 gap-8 md:gap-12 items-center transition-all duration-1000 ${visibleSections.includes(2) ? "opacity-100" : "opacity-0"}`}
+            className={`journey-section grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 md:gap-12 items-center transition-all duration-1000 ${visibleSections.includes(2) ? "opacity-100" : "opacity-0"}`}
             data-section="2"
           >
-            <div className={`order-2 md:order-1 ${visibleSections.includes(2) ? "animate-fadeInLeft" : ""}`}>
+            {/* Left side: Card Logo */}
+            <div className={`flex flex-row items-start sm:items-start md:items-center gap-4 md:gap-0 order-1 md:order-2 ${CARD_CONTENT_STYLE} w-full md:w-auto`}>
+              <div className="flex-shrink-0 flex items-center justify-center w-20 h-20 md:w-32 md:h-32">
+                <div className={ICON_CARD_STYLE}>
+                  <Shield className="w-16 h-16 md:w-32 md:h-32 text-charcha-purple opacity-80" />
+                </div>
+              </div>
+              {/* Info (mobile only) */}
+              <div className={`flex flex-col md:hidden w-full min-w-0 overflow-hidden ${visibleSections.includes(2) ? "animate-fadeInLeft" : ""}`}>
+                <div className="inline-block px-3 py-1.5 bg-charcha-purple/10 rounded-full text-charcha-purple font-semibold mb-2">
+                  Step 2
+                </div>
+                <h3 className="text-xl font-bold mb-2 whitespace-normal break-words">Moderated Discussions</h3>
+                <p className="text-sm text-charcha-text-muted leading-relaxed break-words">
+                  Tools that empower hosts to keep conversations healthy and on-track. Every space has guardrails that ensure respect without stifling free expression.
+                </p>
+              </div>
+            </div>
+            {/* Desktop-only Info (right side) */}
+            <div className={`hidden md:flex flex-col justify-center ${INFO_CARD_STYLE} order-2 md:order-1 ${visibleSections.includes(2) ? "animate-fadeInLeft" : ""}`}>
               <div className="inline-block px-3 py-1.5 md:px-4 md:py-2 bg-charcha-purple/10 rounded-full text-charcha-purple font-semibold mb-3 md:mb-4">
                 Step 2
               </div>
-              <h3 className="text-2xl md:text-5xl font-bold mb-4 md:mb-6">Moderated Discussions</h3>
-              <p className="text-base md:text-xl text-charcha-text-muted leading-relaxed">
+              <h3 className="text-2xl md:text-5xl font-bold mb-4 md:mb-6 whitespace-normal break-words">Moderated Discussions</h3>
+              <p className="text-base md:text-xl text-charcha-text-muted leading-relaxed break-words">
                 Tools that empower hosts to keep conversations healthy and on-track. Every space has guardrails that
                 ensure respect without stifling free expression.
               </p>
             </div>
-            <div className={`order-1 md:order-2 ${visibleSections.includes(2) ? "animate-fadeInRight" : ""}`}>
-              <div className="relative">
-                <div className="absolute inset-0 bg-charcha-purple/20 rounded-3xl blur-2xl"></div>
-                <div className="relative bg-charcha-surface border border-charcha-border rounded-3xl p-6 md:p-12 flex items-center justify-center h-56 md:h-80">
-                  <Shield className="w-20 h-20 md:w-32 md:h-32 text-charcha-purple opacity-80" />
-                </div>
-              </div>
-            </div>
           </div>
 
+          {/* Step 3 - Users */}
           <div
-            className={`journey-section grid md:grid-cols-2 gap-8 md:gap-12 items-center transition-all duration-1000 ${visibleSections.includes(3) ? "opacity-100" : "opacity-0"}`}
+            className={`journey-section grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 md:gap-12 items-center transition-all duration-1000 ${visibleSections.includes(3) ? "opacity-100" : "opacity-0"}`}
             data-section="3"
           >
-            <div className={`${visibleSections.includes(3) ? "animate-fadeInLeft" : ""}`}>
-              <div className="relative">
-                <div className="absolute inset-0 bg-charcha-purple/20 rounded-3xl blur-2xl"></div>
-                <div className="relative bg-charcha-surface border border-charcha-border rounded-3xl p-6 md:p-12 flex items-center justify-center h-56 md:h-80">
-                  <Users className="w-20 h-20 md:w-32 md:h-32 text-charcha-purple opacity-80" />
+            {/* Left side: Card Logo */}
+            <div className={`flex flex-row items-start sm:items-start md:items-center gap-4 md:gap-0 ${CARD_CONTENT_STYLE} w-full md:w-auto`}>
+              <div className="flex-shrink-0 flex items-center justify-center w-20 h-20 md:w-32 md:h-32">
+                <div className={ICON_CARD_STYLE}>
+                  <Users className="w-16 h-16 md:w-32 md:h-32 text-charcha-purple opacity-80" />
                 </div>
               </div>
+              {/* Info (mobile only) */}
+              <div className={`flex flex-col md:hidden w-full min-w-0 overflow-hidden ${visibleSections.includes(3) ? "animate-fadeInRight" : ""}`}>
+                <div className="inline-block px-3 py-1.5 bg-charcha-purple/10 rounded-full text-charcha-purple font-semibold mb-2">
+                  Step 3
+                </div>
+                <h3 className="text-xl font-bold mb-2 whitespace-normal break-words">Meaningful Connections</h3>
+                <p className="text-sm text-charcha-text-muted leading-relaxed break-words">
+                  Connect with people through ideas, not just fleeting trends. Build relationships based on shared values and mutual respect, not viral moments.
+                </p>
+              </div>
             </div>
-            <div className={`${visibleSections.includes(3) ? "animate-fadeInRight" : ""}`}>
+            {/* Desktop-only Info (right side) */}
+            <div className={`hidden md:flex flex-col justify-center ${INFO_CARD_STYLE} ${visibleSections.includes(3) ? "animate-fadeInRight" : ""}`}>
               <div className="inline-block px-3 py-1.5 md:px-4 md:py-2 bg-charcha-purple/10 rounded-full text-charcha-purple font-semibold mb-3 md:mb-4">
                 Step 3
               </div>
-              <h3 className="text-2xl md:text-5xl font-bold mb-4 md:mb-6">Meaningful Connections</h3>
-              <p className="text-base md:text-xl text-charcha-text-muted leading-relaxed">
+              <h3 className="text-2xl md:text-5xl font-bold mb-4 md:mb-6 whitespace-normal break-words">Meaningful Connections</h3>
+              <p className="text-base md:text-xl text-charcha-text-muted leading-relaxed break-words">
                 Connect with people through ideas, not just fleeting trends. Build relationships based on shared values
                 and mutual respect, not viral moments.
               </p>
@@ -250,17 +289,21 @@ const LandingPage = () => {
             <p className="text-base md:text-xl text-charcha-text-muted">What early adopters are saying</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            <div className="group bg-charcha-surface border border-charcha-border rounded-2xl p-6 md:p-8 transition-all duration-300 hover:border-charcha-purple hover:animate-glow-pulse">
-              <div className="mb-4 md:mb-6">
-                <svg
-                  className="w-8 h-8 md:w-10 md:h-10 text-charcha-purple opacity-50"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983" />
-                </svg>
+            <div className="group bg-charcha-surface border border-charcha-border rounded-2xl transition-all duration-300 hover:border-charcha-purple hover:animate-glow-pulse p-5 md:p-8 h-44 md:h-80 flex items-center justify-center">
+              <div>
+                <div className="mb-4 md:mb-6 flex justify-center">
+                  <svg
+                    className="w-8 h-8 md:w-10 md:h-10 text-charcha-purple opacity-50"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983" />
+                  </svg>
+                </div>
+                {/* Add testimonial text/content here if needed */}
               </div>
             </div>
+            {/* Repeat testimonials as needed */}
           </div>
         </div>
       </section>
