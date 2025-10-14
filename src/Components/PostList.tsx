@@ -1,8 +1,11 @@
 import type { FC } from "react";
+import NoPosts from "./NoPosts";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import SupabaseClient from "../Instances/SupabaseClient";
 import PostCard from "./PostCard";
 import { useAuth } from "../Context/AuthContext";
+import Createpost from "./CreatePost";
 
 export interface PostType {
   id: number;
@@ -39,6 +42,7 @@ const fetchUserslike = async (userid: string | undefined): Promise<Likes[] | []>
 
 const PostList: FC = () => {
   const { User } = useAuth()
+  const [IsPostOpen, setIsPostOpen] = useState<boolean>(false)
   const FetchPost = async (): Promise<PostType[]> => {
     const { data, error } = await SupabaseClient
       .from("Posts")
@@ -91,9 +95,12 @@ const PostList: FC = () => {
 
   if (!data?.length) {
     return (
-      <div className="rounded-xl  bg-[#121212] p-8 text-center text-gray-300">
-        No posts yet. Be the first to share something!
-      </div>
+      <>
+        <NoPosts onCreatePost={() => { setIsPostOpen(true) }} />
+        {IsPostOpen && <Createpost handleClick={() => setIsPostOpen((prev) => !prev)} />}
+
+      </>
+
     );
   }
 

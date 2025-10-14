@@ -6,9 +6,9 @@ const PageNotFound = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-charcha-bg text-charcha-text-light text-center px-6">
       <div className="max-w-md mx-auto">
         <img
-          src="https://freesvg.org/img/sad-kitten.png"
+          src="/Assets/catcry.gif"
           alt="404 Not Found Illustration for Charcha Point"
-          className="w-48 h-auto mx-auto mb-8"
+          className="w-40 translate-4 h-auto mx-auto mb-8"
         />
         <h1 className="text-6xl md:text-8xl font-extrabold mb-4">
           <span className="text-charcha-purple">404</span>
