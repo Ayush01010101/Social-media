@@ -72,37 +72,20 @@ const LandingPage = () => {
 
       {/* === NAVBAR UPDATED HERE === */}
       <nav className="fixed top-0  left-0 right-0 z-50 bg-charcha-bg/60 backdrop-blur-lg border-b border-white/5">
-        <div className="max-w-7xl bg-black mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl bg-[#121212] mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-24">
-            <div className="flex items-center gap-2">
-              <MessageCircle size={30} className="text-charcha-purple" />
-              <span className="font-bold text-xl md:text-2xl">Charcha Point</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <MessageCircle size={24} className="text-charcha-purple" />
+              <span className="font-bold break-all md:w-fit w-20  text-[17px] md:text-2xl">Charcha Point</span>
             </div>
 
             <button
               onClick={() => {
                 SignInWithGoogle()
               }}
-              className="flex center items-center gap-3 px-3 py-2 md:px-4 md:py-3 cursor-pointer bg-[#1E1E1E]  rounded-lg bg-charcha-surface/50 hover:bg-charcha-surface transition-colors duration-300 group"
+              className="flex center items-center p-1 gap-1 md:gap-2 md:px-4 md:py-3 cursor-pointer bg-[#1E1E1E]  rounded-lg bg-charcha-surface/50 hover:bg-charcha-surface transition-colors duration-300 "
             >
-              <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M47.532 24.5528C47.532 22.9214 47.388 21.3623 47.088 19.88H24.5V28.9H37.428C36.852 31.8411 35.136 34.2651 32.7 35.8872V42.21H41.088C45.168 38.3377 47.532 31.9628 47.532 24.5528Z"
-                  fill="#4285F4"
-                />
-                <path
-                  d="M24.5 48.0001C31.068 48.0001 36.564 45.7223 41.088 42.21L32.7 35.8872C30.336 37.4377 27.576 38.3377 24.5 38.3377C18.288 38.3377 13.068 34.1209 11.232 28.5H2.592V34.9928C7.032 42.9223 15.18 48.0001 24.5 48.0001Z"
-                  fill="#34A853"
-                />
-                <path
-                  d="M11.232 28.5C10.74 27.0128 10.452 25.4377 10.452 23.7928C10.452 22.1479 10.74 20.5728 11.232 19.0856V12.5928H2.592C0.971998 15.7979 0 19.6428 0 23.7928C0 27.9428 0.971998 31.7877 2.592 34.9928L11.232 28.5Z"
-                  fill="#FBBC05"
-                />
-                <path
-                  d="M24.5 9.24792C28.008 9.24792 31.32 10.4579 33.78 12.8328L41.328 5.28564C36.54 0.971924 30.972 0 24.5 0C15.18 0 7.032 5.07771 2.592 12.5928L11.232 19.0856C13.068 13.4656 18.288 9.24792 24.5 9.24792Z"
-                  fill="#EA4335"
-                />
-              </svg>
+              <img className="h-7" src="https://static.vecteezy.com/system/resources/previews/046/861/647/non_2x/google-logo-transparent-background-free-png.png" />
               <span className="text-sm font-semibold text-charcha-text-light group-hover:text-white transition-colors">
                 Continue with Google
               </span>
@@ -142,7 +125,7 @@ const LandingPage = () => {
               <MessageCircle className="w-12 h-12 md:w-16 md:h-16 text-charcha-purple" />
             </div>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-7xl font-bold mb-6 md:mb-8 leading-tight">
+          <h2 className="text-xl sm:text-3xl md:text-7xl font-bold mb-6 md:mb-8 leading-tight">
             Welcome to <span className="text-charcha-purple">Charcha Point.</span>
           </h2>
           <p className="text-base md:text-2xl text-charcha-text-muted leading-relaxed max-w-3xl mx-auto mb-8 md:mb-12">
@@ -303,8 +286,7 @@ const LandingPage = () => {
                 {/* Add testimonial text/content here if needed */}
               </div>
             </div>
-            {/* Repeat testimonials as needed */}
-          </div>
+            {/* Repeat testimonials as needed */},          </div>
         </div>
       </section>
     </div>
