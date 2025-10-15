@@ -1,6 +1,7 @@
 import { Heart } from "lucide-react";
 import { useAuth } from "../Context/AuthContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import type { ReactNode } from "react";
 import { useParams } from "react-router";
 import SupabaseClient from "../Instances/SupabaseClient";
@@ -17,6 +18,8 @@ const CommentLike = ({ comment_id, likes }: CommentLikeProps): ReactNode => {
 
   const { data: likeStatus } = useQuery({
     queryKey: ['commentLikeStatus', comment_id, User?.id],
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       if (!User?.id) return null;
 

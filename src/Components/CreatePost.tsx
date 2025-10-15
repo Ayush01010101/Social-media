@@ -19,6 +19,8 @@ const CommunitySelectionModal: FC<CommunitySelectionModalProps> = ({ isOpen, onC
   const [searchTerm, setSearchTerm] = useState('');
   const { data: communities, isLoading, isError } = useQuery({
     queryKey: ['communitiesList'],
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     queryFn: fetchCommunities,
   });
 
