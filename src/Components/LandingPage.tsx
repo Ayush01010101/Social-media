@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import Particles from "./Particles"
 import { MessageCircle, Shield, Users, Target, MoveDown } from "lucide-react"
 import { useAuth } from "../Context/AuthContext"
-
 const CARD_CONTENT_STYLE = "flex flex-col justify-center h-full";
 const ICON_CARD_STYLE =
   "relative flex items-center justify-center p-5 md:p-2 md:h-10 w-fit mx-auto";
