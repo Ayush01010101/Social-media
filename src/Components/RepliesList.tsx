@@ -55,14 +55,14 @@ const ReplyComment: FC<{ commentID: number }> = ({ commentID }): ReactNode => {
   return (
     <div className="mt-2 sm:mt-3">
       <form className="flex text-white flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3" onSubmit={(e) => handleSubmit(e)}>
-        <input 
-          onChange={(e) => setCommentContent(e.target.value)} 
-          value={commentContent} 
-          placeholder="Enter your reply..." 
-          className="py-2 px-3 sm:px-4 md:px-7 bg-[#121212] rounded-xl text-sm sm:text-base flex-1 min-w-0" 
+        <input
+          onChange={(e) => setCommentContent(e.target.value)}
+          value={commentContent}
+          placeholder="Enter your reply..."
+          className="py-2 px-3 sm:px-4 md:px-7 bg-[#121212] rounded-xl text-sm sm:text-base flex-1 min-w-0"
         />
-        <button 
-          className="self-stretch sm:self-start py-2 sm:py-1 hover:scale-105 transition-transform px-3 sm:px-4 bg-purple-800 rounded-xl text-sm sm:text-base font-medium" 
+        <button
+          className="self-stretch sm:self-start py-2 sm:py-1 hover:scale-105 transition-transform px-3 sm:px-4 bg-purple-800 rounded-xl text-sm sm:text-base font-medium"
           type="submit"
         >
           Submit
@@ -79,8 +79,8 @@ const RepliesList: FC<{ commentid: number }> = ({ commentid }) => {
 
   return (
     <div className="flex flex-col">
-      <div 
-        className="self-end cursor-pointer p-1 hover:bg-gray-800/50 rounded-md transition-colors" 
+      <div
+        className="self-end cursor-pointer p-1 hover:bg-gray-800/50 rounded-md transition-colors"
         onClick={() => setIsopen((prev) => !prev)}
       >
         {isopen ? (
@@ -95,10 +95,11 @@ const RepliesList: FC<{ commentid: number }> = ({ commentid }) => {
           <RepliesCard commentid={commentid} />
         </div>
       )}
-    </div> 
+    </div>
   )
 
 }
 
 
 export default RepliesList
+
