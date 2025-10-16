@@ -13,7 +13,7 @@ const UnderConstruction = () => {
           className="w-44 rounded-2xl h-auto mx-auto mb-8 opacity-90"
         />
         <div className="flex items-center justify-center gap-3 mb-6">
-          <HardHat className="w-10 h-10 text-charcha-purple" />
+          <HardHat className="w-10 sm:block hidden h-10 text-charcha-purple" />
           <h1 className="text-4xl md:text-5xl font-bold text-charcha-text-light">
             Under Construction
           </h1>

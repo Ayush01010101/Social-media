@@ -35,7 +35,7 @@ const PostCard: FC<{ post: PostType, LikeARR: Likes[] }> = ({ post, LikeARR = []
               <span className="text-[15px] font-medium text-white">
                 {post.author_name}
               </span>
-              <span className="text-xs text-gray-400">• {timeAgo}</span>
+              <span className="text-xs sm:block hidden text-gray-400">• {timeAgo}</span>
             </div>
             <div className="text-xs text-gray-400">
               Gaming Hub
