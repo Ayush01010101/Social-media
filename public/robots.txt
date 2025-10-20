@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://your-domain.com/sitemap.xml
+
+Crawl-delay: 1
+
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: facebookexternalhit/*
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
